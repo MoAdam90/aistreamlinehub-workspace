@@ -591,13 +591,20 @@ function App() {
             <button className="btn-primary" disabled={!email || !email.includes('@')}
               onClick={async () => {
                 try {
-                  await fetch('https://tally.so/r/A7aVee', {
+                  await fetch('https://formspree.io/f/mykqenpk', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, agent: agent.name, mode: agent.deploymentStatus }),
+                    headers: {
+                      'Content-Type': 'application/json',
+                      'Accept': 'application/json',
+                    },
+                    body: JSON.stringify({
+                      email,
+                      agent_name: agent.name,
+                      mode: agent.deploymentStatus,
+                    }),
                   });
                 } catch (e) {
-                  // Silent fail — don't block profile generation if Tally is down
+                  // Silent fail — don't block profile generation if Formspree is down
                 }
                 setStage('profile');
               }}>Generate Profile →</button>
@@ -723,21 +730,10 @@ function MaturityEditor({ value, onSave, onClose }) {
 }
 
 // ============================================================================
-// BOUNDARY EDITOR (P-01)
+// LIST EDITOR (extracted from BoundaryEditor to prevent remount on each keystroke)
 // ============================================================================
-function BoundaryEditor({ value, isRetrofit, onSave, onClose }) {
-  // Normalize: items are {text, status}
-  const norm = arr => arr.length ? arr : [{ text: '', status: '' }];
-  const [allowed, setAllowed] = useState(norm(value.allowed));
-  const [prohibited, setProhibited] = useState(norm(value.prohibited));
-  const [conditional, setConditional] = useState(value.conditional.length ? value.conditional : [{ action: '', trigger: '', status: '' }]);
-
-  const cleanAllowed = allowed.filter(a => a.text.trim());
-  const cleanProhibited = prohibited.filter(a => a.text.trim());
-  const cleanConditional = conditional.filter(c => c.action.trim() && c.trigger.trim());
-  const canSave = cleanAllowed.length >= 1 && cleanProhibited.length >= 1;
-
-  const ListEditor = ({ items, setItems, placeholder }) => (
+function ListEditor({ items, setItems, placeholder, isRetrofit }) {
+  return (
     <div className="space-y-2">
       {items.map((item, i) => (
         <div key={i} className="paper-edge p-3">
@@ -760,6 +756,22 @@ function BoundaryEditor({ value, isRetrofit, onSave, onClose }) {
       <button onClick={() => setItems([...items, { text: '', status: '' }])} className="text-xs text-[var(--muted)] hover:text-[var(--ink)] underline mt-2">+ Add row</button>
     </div>
   );
+}
+
+// ============================================================================
+// BOUNDARY EDITOR (P-01)
+// ============================================================================
+function BoundaryEditor({ value, isRetrofit, onSave, onClose }) {
+  // Normalize: items are {text, status}
+  const norm = arr => arr.length ? arr : [{ text: '', status: '' }];
+  const [allowed, setAllowed] = useState(norm(value.allowed));
+  const [prohibited, setProhibited] = useState(norm(value.prohibited));
+  const [conditional, setConditional] = useState(value.conditional.length ? value.conditional : [{ action: '', trigger: '', status: '' }]);
+
+  const cleanAllowed = allowed.filter(a => a.text.trim());
+  const cleanProhibited = prohibited.filter(a => a.text.trim());
+  const cleanConditional = conditional.filter(c => c.action.trim() && c.trigger.trim());
+  const canSave = cleanAllowed.length >= 1 && cleanProhibited.length >= 1;
 
   return (
     <EditorShell marker="P-01" edition="Edition 2 — What Boundaries Actually Mean" title="Decision Boundary Contract"
@@ -771,13 +783,13 @@ function BoundaryEditor({ value, isRetrofit, onSave, onClose }) {
         <div>
           <div className="flex items-baseline gap-2 mb-1"><h3 className="display text-2xl">Allowed actions</h3><ObligationTag>ART. 26(1)</ObligationTag></div>
           <p className="text-sm text-[var(--muted)] italic mb-4">Actions the agent may execute without conditions.</p>
-          <ListEditor items={allowed} setItems={setAllowed} placeholder="e.g. Read transaction record from core banking" />
+          <ListEditor items={allowed} setItems={setAllowed} isRetrofit={isRetrofit} placeholder="e.g. Read transaction record from core banking" />
         </div>
         <div className="rule"></div>
         <div>
           <div className="flex items-baseline gap-2 mb-1"><h3 className="display text-2xl">Prohibited actions</h3><ObligationTag>ART. 26(1)</ObligationTag></div>
           <p className="text-sm text-[var(--muted)] italic mb-4">Actions the agent must not execute under any condition. Explicit prohibitions, not absences.</p>
-          <ListEditor items={prohibited} setItems={setProhibited} placeholder="e.g. Modify customer account fields" />
+          <ListEditor items={prohibited} setItems={setProhibited} isRetrofit={isRetrofit} placeholder="e.g. Modify customer account fields" />
         </div>
         <div className="rule"></div>
         <div>
