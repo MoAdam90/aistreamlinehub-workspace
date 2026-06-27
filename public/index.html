@@ -11,7 +11,11 @@
 <meta property="og:description" content="Five EU AI Act governance primitives. One agent. One profile. Free." />
 <meta property="og:url" content="https://workspace.aistreamlinehub.com/" />
 <meta property="og:type" content="website" />
-<meta name="twitter:card" content="summary" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:image" content="https://workspace.aistreamlinehub.com/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="628" />
+<meta name="twitter:image" content="https://workspace.aistreamlinehub.com/og-image.png" />
 <meta name="twitter:title" content="Agentic Governance Profile Builder" />
 <meta name="twitter:description" content="Five EU AI Act governance primitives. One agent. One profile. Free." />
 <title>Agentic Governance Profile Builder v1.1</title>
@@ -82,6 +86,15 @@
   }
   .fade-in { animation: fadeIn 280ms ease-out; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  /* Mobile responsive */
+  @media (max-width: 639px) {
+    .mobile-stack { grid-template-columns: 1fr !important; }
+    .mobile-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+    table { min-width: 480px; }
+    .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .editor-header { flex-wrap: wrap; gap: 0.5rem; }
+    .mobile-full-btn { width: 100%; }
+  }
 </style>
 </head>
 <body>
@@ -404,7 +417,7 @@ function App() {
               </div>
               <div className="mt-6 space-y-3">
                 <Field label="Your written classification" required>
-                  <div className="grid grid-cols-3 gap-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                     {[{v:'yes',l:'High-risk'},{v:'no',l:'Not high-risk'},{v:'unclear',l:'Unclear / pending review'}].map(o => (
                       <button key={o.v} onClick={() => setAgent({...agent, highRiskFlag: o.v})}
                         className={`p-3 text-sm border transition-colors ${agent.highRiskFlag === o.v ? 'border-[var(--ink)] bg-[var(--ink)] text-[var(--paper)]' : 'border-[var(--border-strong)] hover:border-[var(--ink)]'}`}>
@@ -465,6 +478,7 @@ function App() {
                       </button>
                     ))}
                   </div>
+                  <p className="text-xs text-[var(--muted)] mt-1">Minimum 14 days · Maximum 365 days.</p>
                 </Field>
               )}
             </div>
@@ -673,7 +687,7 @@ function EditorShell({ marker, title, subtitle, edition, children, onSave, onClo
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto scrollbar-clean fade-in" style={{background: 'var(--paper)'}}>
       <div className="max-w-3xl mx-auto p-6 md:p-10 pb-32">
-        <div className="flex items-baseline justify-between mb-6">
+        <div className="flex items-baseline justify-between mb-6 flex-wrap gap-y-2">
           <div className="mono text-xs tracking-widest text-[var(--muted)]">{marker} · {edition.toUpperCase()}</div>
           <button onClick={onClose} className="text-sm text-[var(--muted)] hover:text-[var(--ink)] underline">Close without saving</button>
         </div>
@@ -682,7 +696,7 @@ function EditorShell({ marker, title, subtitle, edition, children, onSave, onClo
         <div className="paper-edge p-8 md:p-10">{children}</div>
       </div>
       <div className="fixed bottom-0 left-0 right-0 paper-edge border-t no-print" style={{background: 'var(--paper)'}}>
-        <div className="max-w-3xl mx-auto p-4 flex justify-between items-center">
+        <div className="max-w-3xl mx-auto p-4 flex justify-between items-center flex-wrap gap-2">
           <button onClick={onClose} className="btn-ghost">Cancel</button>
           <button onClick={onSave} disabled={saveDisabled} className="btn-primary">Save & return to dashboard →</button>
         </div>
@@ -718,7 +732,7 @@ function MaturityEditor({ value, onSave, onClose }) {
               <span className="mono text-xs mt-1 text-[var(--muted)]">{String(i+1).padStart(2,'0')}</span>
               <p className="text-[15px] leading-relaxed">{q.text}</p>
             </div>
-            <div className="grid grid-cols-3 gap-2 ml-8">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 ml-8">
               {[{v:0,l:'Not in place'},{v:1,l:'Partial'},{v:2,l:'Fully in place'}].map(o => (
                 <button key={o.v} onClick={() => setAnswers({...answers, [q.id]: o.v})}
                   className={`p-2.5 text-xs border transition-colors ${answers[q.id] === o.v ? 'border-[var(--ink)] bg-[var(--ink)] text-[var(--paper)]' : 'border-[var(--border-strong)] hover:border-[var(--ink)]'}`}>
