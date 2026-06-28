@@ -6,15 +6,17 @@ Generate a regulator-defensible governance profile for one AI agent — in under
 
 ## What it does
 
-Five EU AI Act primitives, applied to a single agent:
+Six EU AI Act primitives, applied to a single agent:
 
 | Primitive | What it produces |
 |---|---|
-| M — Maturity Check | Structural gap score across five governance dimensions |
+| M — Maturity Check | Structural gap score across six governance dimensions |
 | P-01 — Decision Boundary Contract | Allowed, prohibited, and conditional action lists |
 | P-02 — Oversight Trigger Matrix | Per-action oversight level and entry conditions |
-| P-03 — Accountability Canvas | Four-owner mapping with gap diagnostic |
-| P-04 — Audit Schema | Handoff receipt template and retention guidance |
+| P-03 — Suspension Authority Ledger | Named authority, trigger conditions, and notification chain |
+| P-04 — Accountability Canvas | Four-owner mapping with gap diagnostic |
+| P-05 — Audit Schema | Handoff receipt template and retention guidance |
+| P-06 — Gap Register | Prioritised remediation list, exportable |
 
 **Output:** Governance Profile (PDF) + Gap Register (CSV)
 
