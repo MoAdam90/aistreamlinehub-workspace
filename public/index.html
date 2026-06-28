@@ -962,18 +962,12 @@ function SuspensionEditor({ value, isRetrofit, onSave, onClose }) {
         </Field>
         <Field label="Trigger conditions" hint="The observable conditions that obligate the authority holder to suspend. Be specific — vague triggers create audit risk.">
           <textarea className="field-input" rows={3}
-            placeholder={"e.g.
-Sanctions false-positive rate exceeds 5% in any 24-hour window
-Any uncontrolled output reaching an external party
-AI provider issues high-severity incident notice"}
+            placeholder={"e.g.\nSanctions false-positive rate exceeds 5% in any 24-hour window\nAny uncontrolled output reaching an external party\nAI provider issues high-severity incident notice"}
             value={v.trigger} onChange={e => setV({...v, trigger: e.target.value})} />
         </Field>
         <Field label="Notification chain" hint="Who must be notified on suspension, in what order. Art. 26(5) requires notification to the provider and, for serious incidents, market surveillance authorities.">
           <textarea className="field-input" rows={3}
-            placeholder={"e.g.
-1. AI provider (within 24h)
-2. Head of Compliance
-3. National market surveillance authority (serious incidents only)"}
+            placeholder={"e.g.\n1. AI provider (within 24h)\n2. Head of Compliance\n3. National market surveillance authority (serious incidents only)"}
             value={v.notificationChain} onChange={e => setV({...v, notificationChain: e.target.value})} />
         </Field>
       </div>
