@@ -7,10 +7,10 @@
 <link rel="shortcut icon" href="/favicon.ico" />
 <script defer data-domain="workspace.aistreamlinehub.com,aistreamlinehub.com" src="https://plausible.io/js/script.js"></script>
 <link rel="canonical" href="https://workspace.aistreamlinehub.com/" />
-<meta name="description" content="Generate a regulator-defensible governance profile for one AI agent. Five EU AI Act primitives. Free. Works for agents in production and agents in design." />
+<meta name="description" content="Generate a regulator-defensible governance profile for one AI agent. Six EU AI Act primitives. Free. Works for agents in production and agents in design." />
 <meta name="robots" content="index, follow" />
 <meta property="og:title" content="Agentic Governance Profile Builder" />
-<meta property="og:description" content="Five EU AI Act governance primitives. One agent. One profile. Free." />
+<meta property="og:description" content="Six EU AI Act governance primitives. One agent. One profile. Free." />
 <meta property="og:url" content="https://workspace.aistreamlinehub.com/" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -19,8 +19,8 @@
 <meta property="og:image:height" content="628" />
 <meta name="twitter:image" content="https://workspace.aistreamlinehub.com/og-image.png" />
 <meta name="twitter:title" content="Agentic Governance Profile Builder" />
-<meta name="twitter:description" content="Five EU AI Act governance primitives. One agent. One profile. Free." />
-<title>Agentic Governance Profile Builder v1.1</title>
+<meta name="twitter:description" content="Six EU AI Act governance primitives. One agent. One profile. Free." />
+<title>Agentic Governance Profile Builder v1.2</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -104,12 +104,13 @@
   <div style="max-width:720px;margin:80px auto;padding:0 24px;font-family:sans-serif;color:#1A1A1A;">
     <p style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#6B6760;margin-bottom:24px;">AGENTIC GOVERNANCE PROFILE BUILDER · AISTREAMLINEHUB.COM</p>
     <h1 style="font-size:2.5rem;font-weight:700;line-height:1.15;margin-bottom:16px;">Produce a regulator-defensible governance profile for one AI agent.</h1>
-    <p style="font-size:1.1rem;color:#444;margin-bottom:12px;">Five primitives. One agent. EU AI Act deployer obligations.</p>
+    <p style="font-size:1.1rem;color:#444;margin-bottom:12px;">Six primitives. One agent. EU AI Act deployer obligations.</p>
     <p style="font-size:1rem;color:#444;margin-bottom:32px;">Works for agents you're building and agents already running in production. Three modes: pre-deployment, in-flight build, and retrofit on a deployed agent.</p>
     <h2 style="font-size:1.2rem;font-weight:600;margin-bottom:8px;">What it produces</h2>
     <ul style="color:#444;line-height:1.8;margin-bottom:32px;">
       <li>Decision Boundary Contract — what the agent may and may not do</li>
       <li>Oversight Trigger Matrix — named human intervention calibrated to risk level</li>
+      <li>Suspension Authority Ledger — who can suspend the agent, on what trigger, and who gets notified</li>
       <li>Accountability Canvas — four named owners before deployment</li>
       <li>Audit Schema — queryable fields, retention, and Handoff Receipt structure</li>
       <li>Governance Profile — regulator-defensible artifact, exportable as PDF</li>
@@ -250,6 +251,7 @@ function App() {
     compliance: { name: '', title: '', status: '' },
   });
   const [audit, setAudit] = useState({ fields: [], fieldStatus: {}, retentionMonths: 6, receiptStructure: '' });
+  const [suspension, setSuspension] = useState({ authority: '', trigger: '', notificationChain: '', status: '' });
 
   const isRetrofit = agent.deploymentStatus === 'retrofit';
 
@@ -258,12 +260,13 @@ function App() {
     maturity: maturity !== null,
     boundary: boundary.allowed.length >= 1 && boundary.prohibited.length >= 1,
     oversight: oversight.length >= 1,
+    suspension: !!suspension.authority,
     accountability: !!(accountability.decision.name && accountability.oversight.name && accountability.technical.name && accountability.compliance.name),
     audit: audit.fields.length >= 1,
   }), [agent, maturity, boundary, oversight, accountability, audit]);
 
-  const requiredComplete = completion.agent && completion.boundary && completion.oversight && completion.accountability && completion.audit;
-  const completedCount = [completion.boundary, completion.oversight, completion.accountability, completion.audit].filter(Boolean).length;
+  const requiredComplete = completion.agent && completion.boundary && completion.oversight && completion.suspension && completion.accountability && completion.audit;
+  const completedCount = [completion.boundary, completion.oversight, completion.suspension, completion.accountability, completion.audit].filter(Boolean).length;
 
   // ==========================================================================
   // WELCOME
@@ -271,12 +274,12 @@ function App() {
   if (stage === 'welcome') return (
     <div className="min-h-screen flex items-center justify-center p-8 fade-in">
       <div className="max-w-2xl w-full">
-        <div className="mono text-xs tracking-widest text-[var(--muted)] mb-6">AGENTIC GOVERNANCE PROFILE BUILDER / v1.1</div>
+        <div className="mono text-xs tracking-widest text-[var(--muted)] mb-6">AGENTIC GOVERNANCE PROFILE BUILDER / v1.2</div>
         <h1 className="display text-5xl md:text-6xl leading-[1.05] mb-6">
           Produce a regulator-defensible<br/>
           governance profile for <em className="display italic">one</em> AI agent.
         </h1>
-        <p className="text-[var(--muted)] text-lg leading-relaxed mb-2 max-w-xl">Five primitives. One agent. EU AI Act deployer obligations.</p>
+        <p className="text-[var(--muted)] text-lg leading-relaxed mb-2 max-w-xl">Six primitives. One agent. EU AI Act deployer obligations.</p>
         <p className="text-[var(--muted)] leading-relaxed mb-10 max-w-xl">
           Works for agents you're building <em>and</em> agents already running in production. Choose your deployment status to shape the workspace.
         </p>
@@ -356,6 +359,7 @@ function App() {
               retentionMonths: 24,
               receiptStructure: 'JSON event written to immutable audit log at each state transition',
             });
+            setSuspension({ authority: 'Sarah Müller — Head of Financial Crime Compliance', trigger: 'Sanctions false-positive rate exceeds 5% in any 24-hour window\nAny uncontrolled output reaching an external party\nAI provider issues high-severity incident notice', notificationChain: '1. AI provider (within 24h)\n2. Head of Compliance\n3. National market surveillance authority (serious incidents only)', status: 'missing' });
             setStage('dashboard');
           }}>Load example →</button>
         </div>
@@ -516,9 +520,10 @@ function App() {
       { id: 'maturity', num: 'M', edition: 'Triage', title: 'Maturity Check', sub: 'Optional 90-second readiness diagnostic.', done: completion.maturity, optional: true },
       { id: 'boundary', num: 'P-01', edition: 'Edition 2', title: 'Decision Boundary Contract', sub: isRetrofit ? 'What the agent currently does — and what it should — as a contract.' : 'What the agent may do — and may not — as a contract, not a capability list.', done: completion.boundary },
       { id: 'oversight', num: 'P-02', edition: 'Edition 3', title: 'Oversight Trigger Matrix', sub: 'Where a human enters. Named, calibrated, conditional.', done: completion.oversight },
-      { id: 'accountability', num: 'P-03', edition: 'Edition 4', title: 'Accountability Canvas', sub: 'Four owners — decision, oversight, technical, compliance.', done: completion.accountability },
-      { id: 'audit', num: 'P-04', edition: 'Edition 5', title: 'Audit Schema', sub: 'Handoff Receipt structure. Queryable fields, retention.', done: completion.audit },
-      { id: 'implementation', num: 'P-05', edition: 'Edition 6', title: isRetrofit ? 'Remediation Sequence' : 'Implementation Sequence', sub: isRetrofit ? 'Prioritized gap-closure plan — assembled from your inputs.' : 'Deployment sequence scaled to your horizon — assembled from your inputs.', done: requiredComplete, auto: true },
+      { id: 'suspension', num: 'P-03', edition: 'Art. 26(5)', title: 'Suspension Authority Ledger', sub: 'Who can suspend the agent, on what trigger, and who gets notified.', done: completion.suspension },
+      { id: 'accountability', num: 'P-04', edition: 'Edition 4', title: 'Accountability Canvas', sub: 'Four owners — decision, oversight, technical, compliance.', done: completion.accountability },
+      { id: 'audit', num: 'P-05', edition: 'Edition 5', title: 'Audit Schema', sub: 'Handoff Receipt structure. Queryable fields, retention.', done: completion.audit },
+      { id: 'implementation', num: 'P-06', edition: 'Edition 6', title: isRetrofit ? 'Remediation Sequence' : 'Implementation Sequence', sub: isRetrofit ? 'Prioritized gap-closure plan — assembled from your inputs.' : 'Deployment sequence scaled to your horizon — assembled from your inputs.', done: requiredComplete, auto: true },
     ];
 
     const modeBadge = DEPLOYMENT_MODES.find(m => m.id === agent.deploymentStatus);
@@ -527,7 +532,7 @@ function App() {
     return (
       <div className="min-h-screen p-6 md:p-10 fade-in">
         <div className="max-w-4xl mx-auto">
-          <Header step="Screen 2" title={isRetrofit ? 'Five Primitives — Retrofit' : 'Five Primitives'} progressLabel="Step 2 of 2" progress={1} />
+          <Header step="Screen 2" title={isRetrofit ? 'Six Primitives — Retrofit' : 'Six Primitives'} progressLabel="Step 2 of 2" progress={1} />
 
           <div className="paper-edge p-6 mt-8 mb-6 flex flex-wrap gap-x-8 gap-y-3 items-baseline">
             <div>
@@ -578,7 +583,7 @@ function App() {
                 </div>
                 <h3 className="display text-2xl leading-tight mb-2">{card.title}</h3>
                 <p className="text-sm text-[var(--muted)] leading-relaxed">{card.sub}</p>
-                {card.auto && <p className="text-xs italic mt-3" style={{color: 'var(--accent)'}}>{card.done ? 'Will be generated when you produce your profile.' : 'Unlocks once the four primitives above are complete.'}</p>}
+                {card.auto && <p className="text-xs italic mt-3" style={{color: 'var(--accent)'}}>{card.done ? 'Will be generated when you produce your profile.' : 'Unlocks once the five primitives above are complete.'}</p>}
               </button>
             ))}
           </div>
@@ -586,7 +591,7 @@ function App() {
           <div className="mt-10 paper-edge p-6 flex flex-wrap items-center justify-between gap-4">
             <div>
               <div className="marker-num mb-1">PROFILE STATUS</div>
-              <div className="text-sm">{completedCount} of 4 required primitives complete.{requiredComplete && <span style={{color: 'var(--complete)'}}> · Ready to generate.</span>}</div>
+              <div className="text-sm">{completedCount} of 5 required primitives complete.{requiredComplete && <span style={{color: 'var(--complete)'}}> · Ready to generate.</span>}</div>
               <div className="progress-rail mt-3" style={{maxWidth: '280px'}}><div className="progress-fill" style={{width: `${(completedCount / 4) * 100}%`}}></div></div>
             </div>
             <button className="btn-primary" disabled={!requiredComplete} onClick={() => setStage('emailGate')}>
@@ -602,6 +607,7 @@ function App() {
         {openCard === 'maturity' && <MaturityEditor value={maturity} onSave={v => { setMaturity(v); setOpenCard(null); }} onClose={() => setOpenCard(null)} />}
         {openCard === 'boundary' && <BoundaryEditor value={boundary} isRetrofit={isRetrofit} onSave={v => { setBoundary(v); setOpenCard(null); }} onClose={() => setOpenCard(null)} />}
         {openCard === 'oversight' && <OversightEditor value={oversight} boundary={boundary} isRetrofit={isRetrofit} onSave={v => { setOversight(v); setOpenCard(null); }} onClose={() => setOpenCard(null)} />}
+        {openCard === 'suspension' && <SuspensionEditor value={suspension} isRetrofit={isRetrofit} onSave={v => { setSuspension(v); setOpenCard(null); }} onClose={() => setOpenCard(null)} />}
         {openCard === 'accountability' && <AccountabilityEditor value={accountability} isRetrofit={isRetrofit} onSave={v => { setAccountability(v); setOpenCard(null); }} onClose={() => setOpenCard(null)} />}
         {openCard === 'audit' && <AuditEditor value={audit} isRetrofit={isRetrofit} onSave={v => { setAudit(v); setOpenCard(null); }} onClose={() => setOpenCard(null)} />}
       </div>
@@ -655,7 +661,7 @@ function App() {
   // ==========================================================================
   if (stage === 'profile') {
     return <ProfileView
-      agent={agent} maturity={maturity} boundary={boundary} oversight={oversight}
+      agent={agent} maturity={maturity} boundary={boundary} oversight={oversight} suspension={suspension}
       accountability={accountability} audit={audit} isRetrofit={isRetrofit}
       onBack={() => setStage('dashboard')} />;
   }
@@ -930,7 +936,52 @@ function OversightEditor({ value, boundary, isRetrofit, onSave, onClose }) {
 }
 
 // ============================================================================
-// ACCOUNTABILITY EDITOR (P-03)
+
+// ============================================================================
+// SUSPENSION EDITOR (P-03)
+// ============================================================================
+function SuspensionEditor({ value, isRetrofit, onSave, onClose }) {
+  const [v, setV] = React.useState(value);
+  const canSave = !!v.authority;
+
+  return (
+    <EditorShell marker="P-03" edition="Art. 26(5) — Suspension Authority" title="Suspension Authority Ledger"
+      subtitle="Article 26(5) requires deployers to monitor the system, suspend its use where it may present a risk, and report serious incidents. The Ledger names who holds that authority and what triggers it."
+      onSave={() => onSave(v)} onClose={onClose} saveDisabled={!canSave}>
+      <ObligationTag>ART. 26(5) — SUSPENSION DUTY</ObligationTag>
+      <div className="space-y-6 mt-6">
+        <Field label="Suspension authority" hint="The named individual or role who holds the power to suspend this agent. Must be a person, not a committee.">
+          <input className="field-input" placeholder="e.g. Head of AI Risk, Sarah Müller"
+            value={v.authority} onChange={e => setV({...v, authority: e.target.value})} />
+          {isRetrofit && (
+            <div className="mt-2 flex items-center gap-3">
+              <span className="text-[10px] mono uppercase text-[var(--muted)]">Documented today?</span>
+              <StatusSelector value={v.status} onChange={s => setV({...v, status: s})} />
+            </div>
+          )}
+        </Field>
+        <Field label="Trigger conditions" hint="The observable conditions that obligate the authority holder to suspend. Be specific — vague triggers create audit risk.">
+          <textarea className="field-input" rows={3}
+            placeholder={"e.g.
+Sanctions false-positive rate exceeds 5% in any 24-hour window
+Any uncontrolled output reaching an external party
+AI provider issues high-severity incident notice"}
+            value={v.trigger} onChange={e => setV({...v, trigger: e.target.value})} />
+        </Field>
+        <Field label="Notification chain" hint="Who must be notified on suspension, in what order. Art. 26(5) requires notification to the provider and, for serious incidents, market surveillance authorities.">
+          <textarea className="field-input" rows={3}
+            placeholder={"e.g.
+1. AI provider (within 24h)
+2. Head of Compliance
+3. National market surveillance authority (serious incidents only)"}
+            value={v.notificationChain} onChange={e => setV({...v, notificationChain: e.target.value})} />
+        </Field>
+      </div>
+    </EditorShell>
+  );
+}
+
+// ACCOUNTABILITY EDITOR (P-04)
 // ============================================================================
 function AccountabilityEditor({ value, isRetrofit, onSave, onClose }) {
   const [v, setV] = useState(value);
@@ -943,7 +994,7 @@ function AccountabilityEditor({ value, isRetrofit, onSave, onClose }) {
   ];
 
   return (
-    <EditorShell marker="P-03" edition="Edition 4 — Who's Accountable When the Agent Acts?" title="Accountability Canvas"
+    <EditorShell marker="P-04" edition="Edition 4 — Who's Accountable When the Agent Acts?" title="Accountability Canvas"
       subtitle="One page. Four owners. Diffuse accountability fails in incident review — names hold."
       onSave={() => onSave(v)} onClose={onClose} saveDisabled={!canSave}>
       <div className="flex items-baseline gap-2 mb-6"><h3 className="display text-2xl">Four named owners</h3><ObligationTag>ART. 26(2)</ObligationTag></div>
@@ -970,7 +1021,7 @@ function AccountabilityEditor({ value, isRetrofit, onSave, onClose }) {
 }
 
 // ============================================================================
-// AUDIT EDITOR (P-04)
+// AUDIT EDITOR (P-05)
 // ============================================================================
 function AuditEditor({ value, isRetrofit, onSave, onClose }) {
   const [v, setV] = useState(value);
@@ -978,7 +1029,7 @@ function AuditEditor({ value, isRetrofit, onSave, onClose }) {
   const canSave = v.fields.length >= 1;
 
   return (
-    <EditorShell marker="P-04" edition="Edition 5 — Audit Trails That Survive Scrutiny" title="Audit Schema"
+    <EditorShell marker="P-05" edition="Edition 5 — Audit Trails That Survive Scrutiny" title="Audit Schema"
       subtitle="Reconstructed narratives lose in audit. A structured receipt — predefined fields, written at the time of the decision — wins."
       onSave={() => onSave(v)} onClose={onClose} saveDisabled={!canSave}>
       <div className="flex items-baseline gap-2 mb-4"><h3 className="display text-2xl">Handoff Receipt fields</h3><ObligationTag>ART. 12 · ART. 26(6)</ObligationTag></div>
@@ -1026,7 +1077,7 @@ function AuditEditor({ value, isRetrofit, onSave, onClose }) {
 // ============================================================================
 // SEQUENCE GENERATOR
 // ============================================================================
-function generateSequence({ agent, maturity, boundary, oversight, accountability, audit, isRetrofit }) {
+function generateSequence({ agent, maturity, boundary, oversight, suspension, accountability, audit, isRetrofit }) {
   const horizon = parseInt(agent.horizon);
   const weak = maturity?.weakest || [];
 
@@ -1130,7 +1181,7 @@ function generateSequence({ agent, maturity, boundary, oversight, accountability
 // ============================================================================
 // GAPS COMPUTATION
 // ============================================================================
-function computeGaps({ agent, maturity, boundary, oversight, accountability, audit, isRetrofit }) {
+function computeGaps({ agent, maturity, boundary, oversight, suspension, accountability, audit, isRetrofit }) {
   const g = [];
 
   // Universal gaps (apply in all modes)
@@ -1141,6 +1192,9 @@ function computeGaps({ agent, maturity, boundary, oversight, accountability, aud
   if (audit.fields.length < 5) g.push({ severity: 'P3', area: 'Audit', obligation: 'Art. 12', description: `Only ${audit.fields.length} audit fields selected — verify sufficient for incident reconstruction`, status: 'Partial', owner: 'Technical', targetDays: 30 });
   if (audit.retentionMonths < 60 && agent.highRiskFlag === 'yes') g.push({ severity: 'P2', area: 'Audit', obligation: 'Art. 26(6)', description: `Retention set to ${audit.retentionMonths} months — high-risk FS deployments typically require 60–84 months`, status: 'Partial', owner: 'Compliance', targetDays: 21 });
   if (!maturity) g.push({ severity: 'P4', area: 'Definition', obligation: '—', description: 'Maturity triage not completed', status: 'Documentation', owner: 'Compliance', targetDays: 30 });
+  if (!suspension.authority) g.push({ severity: 'P1', area: 'Suspension', obligation: 'Art. 26(5)', description: 'Suspension authority not named — deployer must designate who can suspend and on what trigger', status: 'Missing', owner: 'Compliance', targetDays: 7 });
+  if (!suspension.trigger) g.push({ severity: 'P2', area: 'Suspension', obligation: 'Art. 26(5)', description: 'Suspension trigger conditions not defined', status: 'Documentation', owner: 'Compliance', targetDays: 14 });
+  if (!suspension.notificationChain) g.push({ severity: 'P2', area: 'Suspension', obligation: 'Art. 26(5)', description: 'Notification chain on suspension not specified', status: 'Documentation', owner: 'Compliance', targetDays: 14 });
 
   if (isRetrofit) {
     // Boundary items
@@ -1162,6 +1216,9 @@ function computeGaps({ agent, maturity, boundary, oversight, accountability, aud
       if (r.status === 'missing') g.push({ severity: 'P1', area: 'Accountability', obligation: 'Art. 26(2)', description: `${lbl} Owner not documented (${r.name})`, status: 'Missing', owner: lbl, targetDays: 7 });
       else if (r.status === 'partial') g.push({ severity: 'P3', area: 'Accountability', obligation: 'Art. 26(2)', description: `${lbl} Owner role only partially documented (${r.name})`, status: 'Partial', owner: lbl, targetDays: 21 });
     });
+    // Suspension
+    if (suspension.status === 'missing') g.push({ severity: 'P1', area: 'Suspension', obligation: 'Art. 26(5)', description: 'Suspension authority not documented in production', status: 'Missing', owner: 'Compliance', targetDays: 7 });
+    else if (suspension.status === 'partial') g.push({ severity: 'P2', area: 'Suspension', obligation: 'Art. 26(5)', description: 'Suspension authority only partially documented', status: 'Partial', owner: 'Compliance', targetDays: 21 });
     // Audit fields
     (audit.fields || []).forEach(f => {
       const s = audit.fieldStatus?.[f];
@@ -1209,9 +1266,9 @@ function downloadGapRegister(agent, gaps) {
 // ============================================================================
 // PROFILE VIEW
 // ============================================================================
-function ProfileView({ agent, maturity, boundary, oversight, accountability, audit, isRetrofit, onBack }) {
-  const gaps = useMemo(() => computeGaps({ agent, maturity, boundary, oversight, accountability, audit, isRetrofit }), [agent, maturity, boundary, oversight, accountability, audit, isRetrofit]);
-  const sequence = useMemo(() => generateSequence({ agent, maturity, boundary, oversight, accountability, audit, isRetrofit }), [agent, maturity, boundary, oversight, accountability, audit, isRetrofit]);
+function ProfileView({ agent, maturity, boundary, oversight, suspension, accountability, audit, isRetrofit, onBack }) {
+  const gaps = useMemo(() => computeGaps({ agent, maturity, boundary, oversight, suspension, accountability, audit, isRetrofit }), [agent, maturity, boundary, oversight, suspension, accountability, audit, isRetrofit]);
+  const sequence = useMemo(() => generateSequence({ agent, maturity, boundary, oversight, suspension, accountability, audit, isRetrofit }), [agent, maturity, boundary, oversight, suspension, accountability, audit, isRetrofit]);
 
   const horizonLabel = (isRetrofit ? HORIZON_OPTIONS_RETROFIT : HORIZON_OPTIONS_PRE).find(h => h.id === agent.horizon)?.label;
 
@@ -1242,7 +1299,7 @@ function ProfileView({ agent, maturity, boundary, oversight, accountability, aud
           <div className="mb-10">
             <div className="flex items-baseline justify-between mb-6 flex-wrap gap-2">
               <div className="mono text-xs tracking-widest text-[var(--muted)]">{isRetrofit ? 'AGENTIC REMEDIATION PROFILE' : 'AGENTIC GOVERNANCE PROFILE'}</div>
-              <div className="mono text-xs tracking-widest text-[var(--muted)]">v1.1 · DEPLOYER · EU AI ACT</div>
+              <div className="mono text-xs tracking-widest text-[var(--muted)]">v1.2 · DEPLOYER · EU AI ACT</div>
             </div>
             <h1 className="doc-h1 mb-4">{agent.name}</h1>
             <p className="text-[var(--muted)] leading-relaxed max-w-2xl">{agent.purpose}</p>
@@ -1372,9 +1429,24 @@ function ProfileView({ agent, maturity, boundary, oversight, accountability, aud
 
           <div className="rule mb-12"></div>
 
-          {/* §4 Accountability */}
+          {/* §4 Suspension Authority Ledger */}
           <section className="mb-12">
-            <div className="doc-h3 mb-3">§4 · Accountability Canvas</div>
+            <div className="doc-h3 mb-3">§4 · Suspension Authority Ledger</div>
+            <h2 className="doc-h2 mb-4">Who can suspend this agent</h2>
+            <ObligationTag>ART. 26(5) — SUSPENSION DUTY</ObligationTag>
+            <dl className="mt-6 space-y-4 text-sm">
+              <DefRow term="Suspension authority" desc={suspension.authority || '⚠ NOT NAMED'} />
+              {suspension.trigger && <DefRow term="Trigger conditions" desc={suspension.trigger} />}
+              {suspension.notificationChain && <DefRow term="Notification chain" desc={suspension.notificationChain} />}
+              {isRetrofit && suspension.status && <DefRow term="Status" desc={<StatusPill status={suspension.status} />} />}
+            </dl>
+          </section>
+
+          <div className="rule mb-12"></div>
+
+          {/* §5 Accountability */}
+          <section className="mb-12">
+            <div className="doc-h3 mb-3">§5 · Accountability Canvas</div>
             <h2 className="doc-h2 mb-4">Four named owners</h2>
             <ObligationTag>ART. 26(2) — HUMAN OVERSIGHT ASSIGNMENT</ObligationTag>
             <div className="grid grid-cols-2 gap-x-8 gap-y-6 mt-6 text-sm">
@@ -1393,9 +1465,9 @@ function ProfileView({ agent, maturity, boundary, oversight, accountability, aud
 
           <div className="rule mb-12"></div>
 
-          {/* §5 Audit */}
+          {/* §6 Audit */}
           <section className="mb-12">
-            <div className="doc-h3 mb-3">§5 · Audit Schema</div>
+            <div className="doc-h3 mb-3">§6 · Audit Schema</div>
             <h2 className="doc-h2 mb-4">Handoff Receipt structure</h2>
             <ObligationTag>ART. 12 — RECORD-KEEPING</ObligationTag><ObligationTag>ART. 26(6) — LOG RETENTION</ObligationTag>
             <div className="mt-6 text-sm space-y-4">
@@ -1419,9 +1491,9 @@ function ProfileView({ agent, maturity, boundary, oversight, accountability, aud
 
           <div className="rule mb-12 print-page-break"></div>
 
-          {/* §6 Sequence */}
+          {/* §7 Sequence */}
           <section className="mb-12">
-            <div className="doc-h3 mb-3">§6 · {isRetrofit ? 'Remediation Sequence' : 'Implementation Sequence'}</div>
+            <div className="doc-h3 mb-3">§7 · {isRetrofit ? 'Remediation Sequence' : 'Implementation Sequence'}</div>
             <h2 className="doc-h2 mb-4">{isRetrofit ? `${horizonLabel} gap-closure plan` : `${horizonLabel} deployment path`}</h2>
             <p className="text-sm text-[var(--muted)] italic mb-6 leading-relaxed">
               {isRetrofit
@@ -1450,9 +1522,9 @@ function ProfileView({ agent, maturity, boundary, oversight, accountability, aud
 
           <div className="rule mb-12"></div>
 
-          {/* §7 Gaps */}
+          {/* §8 Gaps */}
           <section className="mb-12">
-            <div className="doc-h3 mb-3">§7 · Gap Register</div>
+            <div className="doc-h3 mb-3">§8 · Gap Register</div>
             <h2 className="doc-h2 mb-4">{gaps.length} gap{gaps.length === 1 ? '' : 's'} surfaced</h2>
             <p className="text-sm text-[var(--muted)] italic mb-6 leading-relaxed">
               Inputs skipped, defaults inferred, items marked missing or partial in production. Export this as CSV for your issue tracker.
@@ -1480,11 +1552,11 @@ function ProfileView({ agent, maturity, boundary, oversight, accountability, aud
 
           <div className="rule mb-12"></div>
 
-          {/* §8 Lineage */}
+          {/* §9 Lineage */}
           <section className="mb-4">
-            <div className="doc-h3 mb-3">§8 · Replaces vs. Drafts</div>
+            <div className="doc-h3 mb-3">§9 · Replaces vs. Drafts</div>
             <p className="text-sm leading-relaxed mb-4">
-              This profile <strong>replaces</strong> the deployer's classification rationale note (§1), the human oversight assignment record (§4), the boundary documentation (§2), and the calibrated oversight protocol (§3). It <strong>drafts</strong> the audit schema (§5) and {isRetrofit ? 'remediation' : 'implementation'} sequence (§6), which the Technical and Compliance Owners must verify against the deployed system.
+              This profile <strong>replaces</strong> the deployer's classification rationale note (§1), the boundary documentation (§2), the calibrated oversight protocol (§3), the suspension authority record (§4), and the human oversight assignment record (§5). It <strong>drafts</strong> the audit schema (§6) and {isRetrofit ? 'remediation' : 'implementation'} sequence (§7), which the Technical and Compliance Owners must verify against the deployed system.
             </p>
             <p className="text-sm leading-relaxed text-[var(--muted)] italic">
               Provider-supplied facts (model cards, conformity assessments, technical documentation under Articles 9–15) are <em>not</em> covered by this profile and must be retained separately under Article 26(4).
@@ -1493,7 +1565,7 @@ function ProfileView({ agent, maturity, boundary, oversight, accountability, aud
 
           <div className="rule-ink mt-16 pt-6 flex justify-between items-baseline text-xs text-[var(--muted)]">
             <span className="mono tracking-widest">GOVERNED BY DESIGN · AISTREAMLINEHUB.COM</span>
-            <span className="mono tracking-widest">AGPB v1.1</span>
+            <span className="mono tracking-widest">AGPB v1.2</span>
           </div>
         </article>
 
@@ -1530,11 +1602,4 @@ function BoundaryList({ title, items, showStatus }) {
           </li>
         ))}
       </ul>
-    </div>
-  );
-}
-
-ReactDOM.createRoot(document.getElementById('root')).render(<App />);
-</script>
-</body>
-</html>
+    </div
