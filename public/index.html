@@ -252,6 +252,8 @@ function App() {
   });
   const [audit, setAudit] = useState({ fields: [], fieldStatus: {}, retentionMonths: 6, receiptStructure: '' });
   const [suspension, setSuspension] = useState({ authority: '', trigger: '', notificationChain: '', status: '' });
+  const [deployerControlsInput, setDeployerControlsInput] = useState(false);
+  const [affectsNaturalPersons, setAffectsNaturalPersons] = useState(false);
 
   const isRetrofit = agent.deploymentStatus === 'retrofit';
 
@@ -360,6 +362,8 @@ function App() {
               receiptStructure: 'JSON event written to immutable audit log at each state transition',
             });
             setSuspension({ authority: 'Sarah Müller — Head of Financial Crime Compliance', trigger: 'Sanctions false-positive rate exceeds 5% in any 24-hour window\nAny uncontrolled output reaching an external party\nAI provider issues high-severity incident notice', notificationChain: '1. AI provider (within 24h)\n2. Head of Compliance\n3. National market surveillance authority (serious incidents only)', status: 'missing' });
+            setDeployerControlsInput(true);
+            setAffectsNaturalPersons(true);
             setStage('dashboard');
           }}>Load example →</button>
         </div>
@@ -499,6 +503,41 @@ function App() {
               </div>
               <p className="text-sm text-[var(--muted)] italic leading-relaxed max-w-xl">
                 This tool produces artifacts for the deployer role only. If you are also the provider, you will need additional documentation under Articles 9–15.
+              </p>
+            </div>
+
+            <div className="rule"></div>
+
+            <div>
+              <div className="marker-num mb-2">F · CONDITIONAL MODULES</div>
+              <h2 className="display text-3xl mb-1">Scope flags</h2>
+              <p className="text-sm text-[var(--muted)] mb-6 italic leading-relaxed">
+                Enable additional profile sections for EU AI Act obligations that apply only in specific deployment contexts.
+              </p>
+              <div className="space-y-4">
+                <label className="flex items-start gap-3 cursor-pointer">
+                  <input type="checkbox" checked={deployerControlsInput} onChange={e => setDeployerControlsInput(e.target.checked)}
+                    className="mt-1 w-4 h-4 border border-[var(--border-strong)]" />
+                  <div>
+                    <div className="font-medium text-sm">Deployer controls input data <ObligationTag>ART. 26(4)</ObligationTag></div>
+                    <div className="text-xs text-[var(--muted)] mt-0.5 leading-relaxed">
+                      You determine the data used to operate the system — adds Input Data Governance section to the profile.
+                    </div>
+                  </div>
+                </label>
+                <label className="flex items-start gap-3 cursor-pointer">
+                  <input type="checkbox" checked={affectsNaturalPersons} onChange={e => setAffectsNaturalPersons(e.target.checked)}
+                    className="mt-1 w-4 h-4 border border-[var(--border-strong)]" />
+                  <div>
+                    <div className="font-medium text-sm">Agent decisions affect natural persons <ObligationTag>ART. 26(11)</ObligationTag></div>
+                    <div className="text-xs text-[var(--muted)] mt-0.5 leading-relaxed">
+                      The agent makes or influences decisions about people under Annex III — adds Affected-Persons Transparency section.
+                    </div>
+                  </div>
+                </label>
+              </div>
+              <p className="text-xs text-[var(--muted)] italic mt-4">
+                A FRIA/DPIA reference section is included in every profile.
               </p>
             </div>
           </div>
@@ -663,6 +702,7 @@ function App() {
     return <ProfileView
       agent={agent} maturity={maturity} boundary={boundary} oversight={oversight} suspension={suspension}
       accountability={accountability} audit={audit} isRetrofit={isRetrofit}
+      deployerControlsInput={deployerControlsInput} affectsNaturalPersons={affectsNaturalPersons}
       onBack={() => setStage('dashboard')} />;
   }
 
@@ -1183,7 +1223,7 @@ function computeGaps({ agent, maturity, boundary, oversight, suspension, account
   if (!agent.systems) g.push({ severity: 'P3', area: 'Definition', obligation: 'Annex IV §1(b)', description: 'Systems and data touched not specified', status: 'Documentation', owner: 'Technical', targetDays: 14 });
   if (agent.highRiskFlag === 'unclear') g.push({ severity: 'P1', area: 'Definition', obligation: 'Art. 6 · Annex III', description: 'Annex III classification marked unclear — must be resolved before deployment', status: 'Missing', owner: 'Compliance', targetDays: 7 });
   if (boundary.conditional.length === 0) g.push({ severity: 'P4', area: 'Boundary', obligation: 'Art. 26(1)', description: 'No conditional actions defined — verify intentional', status: 'Documentation', owner: 'Technical', targetDays: 30 });
-  if (audit.fields.length < 5) g.push({ severity: 'P3', area: 'Audit', obligation: 'Art. 12', description: `Only ${audit.fields.length} audit fields selected — verify sufficient for incident reconstruction`, status: 'Partial', owner: 'Technical', targetDays: 30 });
+  if (audit.fields.length < 5) g.push({ severity: 'P3', area: 'Audit', obligation: 'Art. 12 · Art. 26(6)', description: `Only ${audit.fields.length} audit fields selected — verify sufficient for incident reconstruction`, status: 'Partial', owner: 'Technical', targetDays: 30 });
   if (audit.retentionMonths < 60 && agent.highRiskFlag === 'yes') g.push({ severity: 'P2', area: 'Audit', obligation: 'Art. 26(6)', description: `Retention set to ${audit.retentionMonths} months — high-risk FS deployments typically require 60–84 months`, status: 'Partial', owner: 'Compliance', targetDays: 21 });
   if (!maturity) g.push({ severity: 'P4', area: 'Definition', obligation: '—', description: 'Maturity triage not completed', status: 'Documentation', owner: 'Compliance', targetDays: 30 });
   if (!suspension.authority) g.push({ severity: 'P1', area: 'Suspension', obligation: 'Art. 26(5)', description: 'Suspension authority not named — deployer must designate who can suspend and on what trigger', status: 'Missing', owner: 'Compliance', targetDays: 7 });
@@ -1202,7 +1242,7 @@ function computeGaps({ agent, maturity, boundary, oversight, suspension, account
     // Oversight rows
     oversight.forEach(o => {
       if (o.status === 'missing') g.push({ severity: 'P1', area: 'Oversight', obligation: 'Art. 14 · Art. 26(2)', description: `No oversight on action: "${o.action}"`, status: 'Missing', owner: 'Oversight', targetDays: 7 });
-      else if (o.status === 'partial') g.push({ severity: 'P2', area: 'Oversight', obligation: 'Art. 14', description: `Partial oversight on action: "${o.action}"`, status: 'Partial', owner: 'Oversight', targetDays: 21 });
+      else if (o.status === 'partial') g.push({ severity: 'P2', area: 'Oversight', obligation: 'Art. 14 · Art. 26(2)', description: `Partial oversight on action: "${o.action}"`, status: 'Partial', owner: 'Oversight', targetDays: 21 });
     });
     // Accountability
     [['decision','Decision'],['oversight','Oversight'],['technical','Technical'],['compliance','Compliance']].forEach(([k, lbl]) => {
@@ -1217,7 +1257,7 @@ function computeGaps({ agent, maturity, boundary, oversight, suspension, account
     (audit.fields || []).forEach(f => {
       const s = audit.fieldStatus?.[f];
       if (s === 'missing') g.push({ severity: 'P2', area: 'Audit', obligation: 'Art. 12 · Art. 26(6)', description: `Audit field not logged in production: "${f}"`, status: 'Missing', owner: 'Technical', targetDays: 30 });
-      else if (s === 'partial') g.push({ severity: 'P3', area: 'Audit', obligation: 'Art. 12', description: `Audit field partially logged: "${f}"`, status: 'Partial', owner: 'Technical', targetDays: 45 });
+      else if (s === 'partial') g.push({ severity: 'P3', area: 'Audit', obligation: 'Art. 12 · Art. 26(6)', description: `Audit field partially logged: "${f}"`, status: 'Partial', owner: 'Technical', targetDays: 45 });
     });
   }
 
@@ -1260,7 +1300,7 @@ function downloadGapRegister(agent, gaps) {
 // ============================================================================
 // PROFILE VIEW
 // ============================================================================
-function ProfileView({ agent, maturity, boundary, oversight, suspension, accountability, audit, isRetrofit, onBack }) {
+function ProfileView({ agent, maturity, boundary, oversight, suspension, accountability, audit, isRetrofit, deployerControlsInput, affectsNaturalPersons, onBack }) {
   const gaps = useMemo(() => computeGaps({ agent, maturity, boundary, oversight, suspension, accountability, audit, isRetrofit }), [agent, maturity, boundary, oversight, suspension, accountability, audit, isRetrofit]);
   const sequence = useMemo(() => generateSequence({ agent, maturity, boundary, oversight, suspension, accountability, audit, isRetrofit }), [agent, maturity, boundary, oversight, suspension, accountability, audit, isRetrofit]);
 
@@ -1344,7 +1384,7 @@ function ProfileView({ agent, maturity, boundary, oversight, suspension, account
           <section className="mb-12">
             <div className="doc-h3 mb-3">§1 · Agent Definition</div>
             <h2 className="doc-h2 mb-4">Identity, scope, and classification</h2>
-            <ObligationTag>ART. 26(3) — USE PER INSTRUCTIONS</ObligationTag><ObligationTag>ANNEX IV §1</ObligationTag>
+            <ObligationTag>ART. 26(1) — USE PER INSTRUCTIONS</ObligationTag><ObligationTag>ANNEX IV §1</ObligationTag>
             <dl className="mt-6 space-y-4 text-sm">
               <DefRow term="Function" desc={agent.purpose} />
               {agent.purposeDetail && <DefRow term="Intended purpose" desc={agent.purposeDetail} />}
@@ -1359,6 +1399,50 @@ function ProfileView({ agent, maturity, boundary, oversight, suspension, account
 
           <div className="rule mb-12"></div>
 
+          {/* Coverage Map */}
+          <section className="mb-12">
+            <div className="doc-h3 mb-3">Article 26 Coverage Map</div>
+            <h2 className="doc-h2 mb-4">How this profile maps to EU AI Act deployer obligations</h2>
+            <p className="text-sm text-[var(--muted)] italic mb-6 leading-relaxed">
+              Article 26 applies from 2 August 2026. The Omnibus agreement (May 2026) extended Annex III classification deadlines — it did not move Article 26’s start date.
+            </p>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="text-left mono text-[10px] tracking-widest text-[var(--muted)]">
+                    <th className="pb-2 pr-6 font-normal">ARTICLE 26 OBLIGATION</th>
+                    <th className="pb-2 pr-6 font-normal">ADDRESSED BY</th>
+                    <th className="pb-2 font-normal">COVERAGE</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    ['(1) Use per provider instructions', 'Decision Boundary Contract', 'covered', 'Covered'],
+                    ['(2) Human oversight', 'Oversight Trigger Matrix + Accountability Canvas', 'covered', 'Covered'],
+                    ['(4) Input data relevance', 'Input Data Governance', 'conditional', 'Conditional — where deployer controls input'],
+                    ['(5) Monitoring, suspension, incident reporting', 'Suspension Authority Ledger', 'covered', 'Covered'],
+                    ['(6) Log retention ≥6 months', 'Audit Schema (sector-aware)', 'covered', 'Covered'],
+                    ['(7) Workplace notice', 'Workplace Transparency', 'conditional', 'Conditional — workplace deployments'],
+                    ['(8) EU-database registration', '—', 'oos', 'Out of scope — public-authority deployers only'],
+                    ['(9) DPIA support', 'FRIA/DPIA pointer', 'ref', 'Reference'],
+                    ['(10) Law-enforcement biometric ID', '—', 'oos', 'Out of scope — specialised regime'],
+                    ['(11) Notice to affected persons', 'Affected-Persons Transparency', 'conditional', 'Conditional — Annex III decisions about people'],
+                    ['(12) Cooperation with authorities', 'The profile artifact itself', 'covered', 'Covered'],
+                  ].map(([art, by, tone, label], i) => (
+                    <tr key={i} className="border-t border-[var(--border)]">
+                      <td className="py-2 pr-6 align-top font-medium">{art}</td>
+                      <td className="py-2 pr-6 align-top text-[var(--muted)]">{by}</td>
+                      <td className="py-2 align-top">
+                        <Pill tone={tone === 'covered' ? 'complete' : tone === 'conditional' ? 'accent' : tone === 'ref' ? 'ink' : 'muted'}>{label}</Pill>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <div className="rule mb-12"></div>
           {/* §2 Boundary */}
           <section className="mb-12">
             <div className="doc-h3 mb-3">§2 · Decision Boundary Contract</div>
@@ -1544,6 +1628,63 @@ function ProfileView({ agent, maturity, boundary, oversight, suspension, account
             )}
           </section>
 
+          {/* Input Data Governance — conditional on deployerControlsInput */}
+          {deployerControlsInput && (
+            <section className="mb-12">
+              <div className="doc-h3 mb-3">Input Data Governance</div>
+              <h2 className="doc-h2 mb-4">Data relevance and representativeness</h2>
+              <ObligationTag>ART. 26(4) — INPUT DATA</ObligationTag>
+              <p className="text-sm text-[var(--muted)] italic mt-4 mb-4 leading-relaxed">
+                Where the deployer determines the data used to operate the system, Article 26(4) requires that input data is relevant and sufficiently representative for the intended purpose.
+              </p>
+              <dl className="mt-2 space-y-4 text-sm">
+                <DefRow term="Input data sources" desc={agent.systems || '—'} />
+                <DefRow term="Relevance basis" desc="Deployer controls input selection and query parameters" />
+                <DefRow term="Representativeness" desc="To be verified by Technical Owner before each model update" />
+                <DefRow term="Obligation" desc="Article 26(4) — Input data relevance and representativeness" />
+              </dl>
+            </section>
+          )}
+
+          {/* Affected-Persons Transparency — conditional on affectsNaturalPersons */}
+          {affectsNaturalPersons && (
+            <>
+              <div className="rule mb-12"></div>
+              <section className="mb-12">
+                <div className="doc-h3 mb-3">Affected-Persons Transparency</div>
+                <h2 className="doc-h2 mb-4">Notice to persons subject to decisions</h2>
+                <ObligationTag>ART. 26(11) — NOTICE</ObligationTag>
+                <p className="text-sm text-[var(--muted)] italic mt-4 mb-4 leading-relaxed">
+                  Where an AI system makes or assists in decisions with legal or similarly significant effects on natural persons under Annex III, the deployer must inform those persons that they are subject to an AI-assisted decision.
+                </p>
+                <dl className="mt-2 space-y-4 text-sm">
+                  <DefRow term="Affected persons" desc="Natural persons whose transactions are screened or delayed" />
+                  <DefRow term="Notice mechanism" desc="To be defined by Compliance Owner" />
+                  <DefRow term="Timing" desc="At or before the decision takes effect" />
+                  <DefRow term="Obligation" desc="Article 26(11) — Notice to affected persons" />
+                </dl>
+              </section>
+            </>
+          )}
+
+          <div className="rule mb-12"></div>
+
+          {/* FRIA/DPIA Reference — always renders */}
+          <section className="mb-12">
+            <div className="doc-h3 mb-3">FRIA / DPIA Reference</div>
+            <h2 className="doc-h2 mb-4">Fundamental rights and data protection</h2>
+            <ObligationTag>ART. 26(9) — DPIA SUPPORT</ObligationTag>
+            <p className="text-sm text-[var(--muted)] italic mt-4 mb-4 leading-relaxed">
+              This profile supports but does not replace a Fundamental Rights Impact Assessment (FRIA) or Data Protection Impact Assessment (DPIA). High-risk AI system deployers must cooperate with providers to conduct or supplement an impact assessment under Article 26(9) and GDPR Article 35 where applicable.
+            </p>
+            <dl className="mt-2 space-y-4 text-sm">
+              <DefRow term="FRIA/DPIA required" desc={agent.highRiskFlag === 'yes' ? 'Yes — high-risk classification' : agent.highRiskFlag === 'no' ? 'Not required — not high-risk' : 'Pending — classification unresolved'} />
+              <DefRow term="Provider cooperation" desc="Request technical documentation and risk assessment from provider under Article 26(9)" />
+              <DefRow term="Record retention" desc="Retain alongside this profile" />
+              <DefRow term="Obligation" desc="Article 26(9) · GDPR Article 35" />
+            </dl>
+          </section>
+
           <div className="rule mb-12"></div>
 
           {/* §9 Lineage */}
@@ -1553,7 +1694,7 @@ function ProfileView({ agent, maturity, boundary, oversight, suspension, account
               This profile <strong>replaces</strong> the deployer's classification rationale note (§1), the boundary documentation (§2), the calibrated oversight protocol (§3), the suspension authority record (§4), and the human oversight assignment record (§5). It <strong>drafts</strong> the audit schema (§6) and {isRetrofit ? 'remediation' : 'implementation'} sequence (§7), which the Technical and Compliance Owners must verify against the deployed system.
             </p>
             <p className="text-sm leading-relaxed text-[var(--muted)] italic">
-              Provider-supplied facts (model cards, conformity assessments, technical documentation under Articles 9–15) are <em>not</em> covered by this profile and must be retained separately under Article 26(4).
+              Provider-supplied facts (model cards, conformity assessments, technical documentation under Articles 9–15) are <em>not</em> covered by this profile. Deployers rely on this information under Article 26(1) and Article 13, and must retain it separately.
             </p>
           </section>
 
