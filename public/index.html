@@ -62,3 +62,1756 @@
   .rule { border-top: 1px solid var(--border); }
   .rule-ink { border-top: 1px solid var(--ink); }
   .btn-primary { background: var(--ink); color: var(--paper); padding: 0.625rem 1.25rem; font-size: 0.875rem; letter-spacing: 0.02em; transition: background 120ms ease; border: 1px solid var(--ink); }
+  .btn-primary:hover { background: #2C2C2C; }
+  .btn-primary:disabled { background: #9C9890; border-color: #9C9890; cursor: not-allowed; }
+  .btn-ghost { background: transparent; color: var(--ink); padding: 0.625rem 1.25rem; font-size: 0.875rem; border: 1px solid var(--border-strong); transition: border-color 120ms ease; }
+  .btn-ghost:hover { border-color: var(--ink); }
+  .card-hover { transition: border-color 160ms ease; }
+  .card-hover:hover { border-color: var(--ink); }
+  .marker-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.6875rem; letter-spacing: 0.08em; color: var(--muted); }
+  .doc-h1 { font-family: 'Instrument Serif', serif; font-size: 2.5rem; line-height: 1.1; letter-spacing: -0.01em; }
+  .doc-h2 { font-family: 'Instrument Serif', serif; font-size: 1.625rem; line-height: 1.2; }
+  .doc-h3 { font-family: 'IBM Plex Sans', sans-serif; font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .checkitem { display: flex; align-items: flex-start; gap: 0.625rem; padding: 0.5rem 0.75rem; border: 1px solid var(--border); cursor: pointer; transition: background 120ms ease; font-size: 0.875rem; }
+  .checkitem:hover { background: var(--accent-soft); }
+  .checkitem.checked { background: var(--accent-soft); border-color: var(--accent); }
+  .progress-rail { height: 1px; background: var(--border); width: 100%; position: relative; }
+  .progress-fill { height: 1px; background: var(--ink); position: absolute; top: 0; left: 0; transition: width 240ms ease; }
+  .scrollbar-clean::-webkit-scrollbar { width: 8px; }
+  .scrollbar-clean::-webkit-scrollbar-thumb { background: var(--border-strong); }
+  @media print {
+    .no-print { display: none !important; }
+    body { background: #FAF7F2 !important; color: #1A1A1A !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .paper-edge { border: 1px solid #E5E1D9 !important; background: #FFFFFF !important; }
+    .print-page-break { page-break-before: always; }
+    .obligation-tag { background: #F3EAD3 !important; color: #B8862F !important; border-color: #B8862F !important; }
+    .gap-tag { background: #F1E1DC !important; color: #8B4A3E !important; border-color: #8B4A3E !important; }
+    .complete-tag { background: #E3E8DC !important; color: #4A5D3A !important; border-color: #4A5D3A !important; }
+    .status-in-place { background: #E3E8DC !important; color: #4A5D3A !important; border-color: #4A5D3A !important; }
+    .status-partial { background: #F3EAD3 !important; color: #B8862F !important; border-color: #B8862F !important; }
+    .status-missing { background: #F1E1DC !important; color: #8B4A3E !important; border-color: #8B4A3E !important; }
+    .rule { border-top: 1px solid #E5E1D9 !important; }
+    .rule-ink { border-top: 1px solid #1A1A1A !important; }
+  }
+  .fade-in { animation: fadeIn 280ms ease-out; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  /* Mobile responsive */
+  @media (max-width: 639px) {
+    .mobile-stack { grid-template-columns: 1fr !important; }
+    .mobile-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+    table { min-width: 480px; }
+    .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .editor-header { flex-wrap: wrap; gap: 0.5rem; }
+    .mobile-full-btn { width: 100%; }
+  }
+</style>
+</head>
+<body>
+<div id="root">
+  <div style="max-width:720px;margin:80px auto;padding:0 24px;font-family:sans-serif;color:#1A1A1A;">
+    <p style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#6B6760;margin-bottom:24px;">AGENTIC GOVERNANCE PROFILE BUILDER · AISTREAMLINEHUB.COM</p>
+    <h1 style="font-size:2.5rem;font-weight:700;line-height:1.15;margin-bottom:16px;">Produce a regulator-defensible governance profile for one AI agent.</h1>
+    <p style="font-size:1.1rem;color:#444;margin-bottom:12px;">Six primitives. One agent. EU AI Act deployer obligations.</p>
+    <p style="font-size:1rem;color:#444;margin-bottom:32px;">Works for agents you're building and agents already running in production. Three modes: pre-deployment, in-flight build, and retrofit on a deployed agent.</p>
+    <h2 style="font-size:1.2rem;font-weight:600;margin-bottom:8px;">What it produces</h2>
+    <ul style="color:#444;line-height:1.8;margin-bottom:32px;">
+      <li>Decision Boundary Contract — what the agent may and may not do</li>
+      <li>Oversight Trigger Matrix — named human intervention calibrated to risk level</li>
+      <li>Suspension Authority Ledger — who can suspend the agent, on what trigger, and who gets notified</li>
+      <li>Accountability Canvas — four named owners before deployment</li>
+      <li>Audit Schema — queryable fields, retention, and Handoff Receipt structure</li>
+      <li>Governance Profile — regulator-defensible artifact, exportable as PDF</li>
+      <li>Gap Register — prioritised remediation plan, exportable as CSV</li>
+    </ul>
+    <h2 style="font-size:1.2rem;font-weight:600;margin-bottom:8px;">EU AI Act Article 26 deployer obligations</h2>
+    <p style="color:#444;margin-bottom:32px;">Article 26 deployer obligations apply from 2 August 2026. The AGPB maps each obligation to a named governance primitive and produces a profile that satisfies the documentation requirements for risk management, human oversight, accountability, and logging.</p>
+    <p style="font-size:0.9rem;color:#6B6760;">Free. No account required. Built by <a href="https://www.aistreamlinehub.com" style="color:#B8862F;">AI Streamline Hub</a>.</p>
+  </div>
+</div>
+
+<script type="text/babel" data-presets="react">
+const { useState, useMemo, Fragment } = React;
+
+// ============================================================================
+// CONSTANTS
+// ============================================================================
+
+const ANNEX_III = [
+  { id: 'biometrics', label: 'Biometrics & emotion recognition' },
+  { id: 'critical_infra', label: 'Critical infrastructure' },
+  { id: 'education', label: 'Education & vocational training' },
+  { id: 'employment', label: 'Employment & worker management' },
+  { id: 'essential_services', label: 'Essential services (credit, benefits, insurance)' },
+  { id: 'law_enforcement', label: 'Law enforcement' },
+  { id: 'migration', label: 'Migration, asylum & border control' },
+  { id: 'justice', label: 'Administration of justice & democratic processes' },
+];
+
+const AUTONOMY_LEVELS = [
+  { id: 'autonomous', label: 'Autonomous', detail: 'Acts without human entry.' },
+  { id: 'notify', label: 'Notify', detail: 'Acts, then notifies a named human.' },
+  { id: 'approve', label: 'Approve', detail: 'Waits for approval before acting.' },
+  { id: 'controlled', label: 'Controlled', detail: 'Human drives; agent suggests.' },
+];
+
+const DEPLOYMENT_MODES = [
+  { id: 'pre', label: 'Pre-deployment', detail: 'Building from scratch. Greenfield governance design.' },
+  { id: 'inflight', label: 'In-flight build', detail: 'Build underway. Some decisions already made.' },
+  { id: 'retrofit', label: 'Already deployed', detail: 'Live in production. Documenting backwards.' },
+];
+
+const HORIZON_OPTIONS_PRE = [
+  { id: '2', label: '2 weeks', detail: 'Pre-Aug rush' },
+  { id: '4', label: '4 weeks', detail: 'Compressed' },
+  { id: '8', label: '8 weeks', detail: 'Standard' },
+  { id: '12', label: '12 weeks', detail: 'Full sequence' },
+  { id: '24', label: '24 weeks', detail: 'Extended programme' },
+];
+
+const HORIZON_OPTIONS_RETROFIT = [
+  { id: '30', label: '30 days', detail: 'Imminent audit' },
+  { id: '60', label: '60 days', detail: 'Near-term remediation' },
+  { id: '90', label: '90 days', detail: 'Standard remediation' },
+  { id: '180', label: '6 months', detail: 'Phased programme' },
+];
+
+const STATUS_OPTIONS = [
+  { id: 'in_place', label: 'In place', tone: 'in-place' },
+  { id: 'partial', label: 'Partial', tone: 'partial' },
+  { id: 'missing', label: 'Missing', tone: 'missing' },
+];
+
+const MATURITY_QUESTIONS = [
+  { id: 'q1', text: 'A written classification rationale exists for this agent (is it Annex III high-risk, and on what basis).' },
+  { id: 'q2', text: 'Decision boundaries are recorded as a contract — not as a capability statement.' },
+  { id: 'q3', text: 'Human oversight points are named individuals with defined entry conditions, not implicit fallbacks.' },
+  { id: 'q4', text: 'Logging captures structured fields a regulator could query — not reconstructed narratives.' },
+  { id: 'q5', text: 'A pre-deployment owner is named for: decision, oversight, technical, compliance.' },
+];
+
+const MATURITY_TO_PRIMITIVE = { q1: 'Agent Definition', q2: 'Decision Boundary Contract', q3: 'Oversight Trigger Matrix', q4: 'Audit Schema', q5: 'Accountability Canvas' };
+
+// ============================================================================
+// PRIMITIVE UI COMPONENTS
+// ============================================================================
+
+const Pill = ({ tone = 'muted', children }) => {
+  const map = { muted: {color: '#6B6760'}, ink: {color: '#1A1A1A'}, accent: {color: '#B8862F'}, gap: {color: '#8B4A3E'}, complete: {color: '#4A5D3A'} };
+  return <span className="pill" style={map[tone]}>{children}</span>;
+};
+
+const StatusPill = ({ status }) => {
+  if (!status) return null;
+  const opt = STATUS_OPTIONS.find(o => o.id === status);
+  if (!opt) return null;
+  return <span className={`status-pill status-${opt.tone}`}>{opt.id === 'in_place' ? '●' : opt.id === 'partial' ? '◐' : '○'} {opt.label}</span>;
+};
+
+const ObligationTag = ({ children }) => <span className="obligation-tag">{children}</span>;
+const GapTag = ({ children }) => <span className="gap-tag">{children}</span>;
+const CompleteTag = ({ children }) => <span className="complete-tag">{children}</span>;
+
+const Field = ({ label, hint, required, children }) => (
+  <div className="space-y-1.5">
+    <label className="flex items-baseline gap-2">
+      <span className="text-xs uppercase tracking-wider text-[var(--muted)]" style={{letterSpacing: '0.1em'}}>{label}</span>
+      {required && <span className="text-[10px] mono" style={{color: 'var(--gap)'}}>REQUIRED</span>}
+    </label>
+    {children}
+    {hint && <p className="text-xs text-[var(--muted)] italic leading-relaxed">{hint}</p>}
+  </div>
+);
+
+const StatusSelector = ({ value, onChange, compact = false }) => (
+  <div className={`grid grid-cols-3 gap-1 ${compact ? 'max-w-xs' : ''}`}>
+    {STATUS_OPTIONS.map(o => (
+      <button key={o.id} type="button" onClick={() => onChange(o.id)}
+        className={`p-1.5 text-[10px] mono uppercase border transition-colors ${
+          value === o.id ? `status-${o.tone}` : 'border-[var(--border-strong)] text-[var(--muted)] hover:border-[var(--ink)]'
+        }`}>{o.label}</button>
+    ))}
+  </div>
+);
+
+// ============================================================================
+// MAIN APP
+// ============================================================================
+
+function App() {
+  const [stage, setStage] = useState('welcome');
+  const [openCard, setOpenCard] = useState(null);
+  const [email, setEmail] = useState('');
+
+  const [agent, setAgent] = useState({
+    name: '', purpose: '', purposeDetail: '', domain: [], systems: '',
+    autonomy: '', highRiskFlag: null,
+    deploymentStatus: '', horizon: '', sector: '',
+  });
+
+  const [maturity, setMaturity] = useState(null);
+  const [boundary, setBoundary] = useState({ allowed: [], prohibited: [], conditional: [] });
+  const [oversight, setOversight] = useState([]);
+  const [accountability, setAccountability] = useState({
+    decision: { name: '', title: '', status: '' },
+    oversight: { name: '', title: '', status: '' },
+    technical: { name: '', title: '', status: '' },
+    compliance: { name: '', title: '', status: '' },
+  });
+  const [audit, setAudit] = useState({ fields: [], fieldStatus: {}, retentionMonths: 6, receiptStructure: '' });
+  const [suspension, setSuspension] = useState({ authority: '', trigger: '', notificationChain: '', status: '' });
+  const [deployerControlsInput, setDeployerControlsInput] = useState(false);
+  const [affectsNaturalPersons, setAffectsNaturalPersons] = useState(false);
+  const [workplaceDeployment, setWorkplaceDeployment] = useState(false);
+
+  const isRetrofit = agent.deploymentStatus === 'retrofit';
+
+  const completion = useMemo(() => ({
+    agent: !!(agent.name && agent.purpose && agent.autonomy && agent.highRiskFlag && agent.deploymentStatus && agent.horizon),
+    maturity: maturity !== null,
+    boundary: boundary.allowed.length >= 1 && boundary.prohibited.length >= 1,
+    oversight: oversight.length >= 1,
+    suspension: !!suspension.authority,
+    accountability: !!(accountability.decision.name && accountability.oversight.name && accountability.technical.name && accountability.compliance.name),
+    audit: audit.fields.length >= 1,
+  }), [agent, maturity, boundary, oversight, accountability, audit]);
+
+  const requiredComplete = completion.agent && completion.boundary && completion.oversight && completion.suspension && completion.accountability && completion.audit;
+  const completedCount = [completion.boundary, completion.oversight, completion.suspension, completion.accountability, completion.audit].filter(Boolean).length;
+
+  // ==========================================================================
+  // WELCOME
+  // ==========================================================================
+  if (stage === 'welcome') return (
+    <div className="min-h-screen flex items-center justify-center p-8 fade-in">
+      <div className="max-w-2xl w-full">
+        <div className="mono text-xs tracking-widest text-[var(--muted)] mb-6">AGENTIC GOVERNANCE PROFILE BUILDER / v1.2</div>
+        <h1 className="display text-5xl md:text-6xl leading-[1.05] mb-6">
+          Produce a regulator-defensible<br/>
+          governance profile for <em className="display italic">one</em> AI agent.
+        </h1>
+        <p className="text-[var(--muted)] text-lg leading-relaxed mb-2 max-w-xl">Six primitives. One agent. EU AI Act deployer obligations.</p>
+        <p className="text-[var(--muted)] leading-relaxed mb-10 max-w-xl">
+          Works for agents you're building <em>and</em> agents already running in production. Choose your deployment status to shape the workspace.
+        </p>
+        <div className="rule-ink mb-8"></div>
+        <div className="grid md:grid-cols-3 gap-6 mb-10 text-sm">
+          <div>
+            <div className="marker-num mb-2">01</div>
+            <div className="text-[var(--ink)] mb-1">Three modes</div>
+            <div className="text-[var(--muted)] text-xs leading-relaxed">Pre-deployment, in-flight build, or retrofit on a deployed agent.</div>
+          </div>
+          <div>
+            <div className="marker-num mb-2">02</div>
+            <div className="text-[var(--ink)] mb-1">Lineage, not language</div>
+            <div className="text-[var(--muted)] text-xs leading-relaxed">Every field traces to an input and names the obligation it serves.</div>
+          </div>
+          <div>
+            <div className="marker-num mb-2">03</div>
+            <div className="text-[var(--ink)] mb-1">Two artifacts</div>
+            <div className="text-[var(--muted)] text-xs leading-relaxed">Governance Profile for the regulator. Gap Register for the team.</div>
+          </div>
+        </div>
+        <div className="flex gap-3 flex-wrap">
+          <button className="btn-primary" onClick={() => setStage('agentDef')}>Begin →</button>
+          <button className="btn-ghost" onClick={() => {
+            setAgent({
+              name: 'Sanctions Triage Agent',
+              purpose: 'Screens inbound payments against EU and UK sanctions lists and flags potential matches for compliance review.',
+              purposeDetail: 'Deployed by a payment institution to pre-screen SEPA and SWIFT transactions before processing. The agent reads payment metadata, queries three sanctions databases, and routes flagged transactions to a named compliance reviewer. It does not block payments autonomously — it escalates.',
+              domain: ['essential_services'],
+              systems: 'Core payments platform (read)\nSanctions database API — EU/UK lists (read)\nCompliance case queue (write)\nTransaction log (read)',
+              autonomy: 'notify',
+              highRiskFlag: 'yes',
+              deploymentStatus: 'retrofit',
+              horizon: '90',
+              sector: 'financial_services',
+            });
+            setBoundary({
+              allowed: [
+                { text: 'Read transaction metadata from payments platform', status: 'in_place' },
+                { text: 'Query EU Consolidated Sanctions List', status: 'in_place' },
+                { text: 'Query UK HM Treasury Sanctions List', status: 'in_place' },
+                { text: 'Write flagged transaction to compliance case queue', status: 'partial' },
+                { text: 'Notify named compliance reviewer via internal alert', status: 'in_place' },
+              ],
+              prohibited: [
+                { text: 'Block or reverse a payment autonomously', status: 'in_place' },
+                { text: 'Access customer account balances or history', status: 'in_place' },
+                { text: 'Modify transaction records', status: 'in_place' },
+                { text: 'Communicate with external parties', status: 'in_place' },
+              ],
+              conditional: [
+                { action: 'Escalate to Head of Compliance', trigger: 'Match confidence score > 0.9 AND transaction value > €50,000', status: 'missing' },
+              ],
+            });
+            setOversight([
+              { action: 'Write flagged transaction to compliance case queue', level: 'approve', trigger: 'Compliance reviewer must confirm before case is filed', status: 'partial' },
+              { action: 'Escalate to Head of Compliance', level: 'approve', trigger: 'Match confidence > 0.9 AND value > €50,000', status: 'missing' },
+              { action: 'Notify named compliance reviewer via internal alert', level: 'notify', trigger: 'Any sanctions match at any confidence level', status: 'in_place' },
+            ]);
+            setAccountability({
+              decision: { name: 'Sarah Müller', title: 'Head of Financial Crime Compliance', status: 'in_place' },
+              oversight: { name: 'Thomas Becker', title: 'Senior Compliance Analyst', status: 'partial' },
+              technical: { name: 'Lena Fischer', title: 'AI Platform Lead', status: 'in_place' },
+              compliance: { name: 'Sarah Müller', title: 'Head of Financial Crime Compliance', status: 'in_place' },
+            });
+            setAudit({
+              fields: ['Transaction ID', 'Agent version', 'Sanctions list queried', 'Match confidence score', 'Escalation trigger condition', 'Reviewing officer ID', 'Decision timestamp', 'Override flag'],
+              fieldStatus: {
+                'Transaction ID': 'in_place',
+                'Agent version': 'missing',
+                'Sanctions list queried': 'in_place',
+                'Match confidence score': 'partial',
+                'Escalation trigger condition': 'missing',
+                'Reviewing officer ID': 'partial',
+                'Decision timestamp': 'in_place',
+                'Override flag': 'missing',
+              },
+              retentionMonths: 24,
+              receiptStructure: 'JSON event written to immutable audit log at each state transition',
+            });
+            setSuspension({ authority: 'Sarah Müller — Head of Financial Crime Compliance', trigger: 'Sanctions false-positive rate exceeds 5% in any 24-hour window\nAny uncontrolled output reaching an external party\nAI provider issues high-severity incident notice', notificationChain: '1. AI provider (within 24h)\n2. Head of Compliance\n3. National market surveillance authority (serious incidents only)', status: 'missing' });
+            setDeployerControlsInput(true);
+            setAffectsNaturalPersons(true);
+            setStage('dashboard');
+          }}>Load example →</button>
+        </div>
+        <div className="mt-12 flex items-center justify-between flex-wrap gap-4">
+          <div className="mono text-[10px] text-[var(--muted)] tracking-widest">GOVERNED BY DESIGN · EDITION 1–6 · AISTREAMLINEHUB.COM</div>
+          <a href="https://www.aistreamlinehub.com" className="mono text-[10px] text-[var(--muted)] tracking-widest hover:text-[var(--ink)] transition-colors">← AISTREAMLINEHUB.COM</a>
+        </div>
+      </div>
+    </div>
+  );
+
+  // ==========================================================================
+  // AGENT DEFINITION
+  // ==========================================================================
+  if (stage === 'agentDef') {
+    const canProceed = agent.name && agent.purpose && agent.autonomy && agent.highRiskFlag && agent.deploymentStatus && agent.horizon;
+    const horizonOptions = agent.deploymentStatus === 'retrofit' ? HORIZON_OPTIONS_RETROFIT : HORIZON_OPTIONS_PRE;
+
+    return (
+      <div className="min-h-screen p-6 md:p-10 fade-in">
+        <div className="max-w-3xl mx-auto">
+          <Header step="Screen 1" title="Agent Definition" progressLabel="Step 1 of 2" progress={0.5} />
+
+          <div className="paper-edge p-8 md:p-12 mt-8 space-y-8">
+            <div>
+              <div className="marker-num mb-2">A · IDENTITY</div>
+              <h2 className="display text-3xl mb-1">Name and purpose</h2>
+              <p className="text-sm text-[var(--muted)] mb-6 italic">Classification rationale starts here. A vague purpose produces an indefensible record.</p>
+              <div className="space-y-5">
+                <Field label="Agent name" required>
+                  <input className="field-input" placeholder="e.g. Sanctions Triage Agent" value={agent.name} onChange={e => setAgent({...agent, name: e.target.value})} />
+                </Field>
+                <Field label="One-line function" required>
+                  <input className="field-input" placeholder="e.g. Screens inbound payments against sanctions lists and flags matches for compliance review." value={agent.purpose} onChange={e => setAgent({...agent, purpose: e.target.value})} />
+                </Field>
+                <Field label="Intended purpose (long form)" hint="Used as the basis for Annex III classification. Be specific about the decision the agent informs or makes.">
+                  <textarea className="field-input" rows={3} placeholder="Describe the deployment context, the decision being supported, and who the output affects." value={agent.purposeDetail} onChange={e => setAgent({...agent, purposeDetail: e.target.value})} />
+                </Field>
+              </div>
+            </div>
+
+            <div className="rule"></div>
+
+            <div>
+              <div className="marker-num mb-2">B · ANNEX III CLASSIFICATION</div>
+              <h2 className="display text-3xl mb-1">Is this a high-risk AI system?</h2>
+              <p className="text-sm text-[var(--muted)] mb-6 italic">Select every Annex III category the agent touches. "It is just a chatbot" is not a legal analysis.</p>
+              <div className="grid md:grid-cols-2 gap-2">
+                {ANNEX_III.map(cat => (
+                  <div key={cat.id} className={`checkitem ${agent.domain.includes(cat.id) ? 'checked' : ''}`}
+                    onClick={() => {
+                      const next = agent.domain.includes(cat.id) ? agent.domain.filter(d => d !== cat.id) : [...agent.domain, cat.id];
+                      setAgent({...agent, domain: next});
+                    }}>
+                    <span className="mono text-xs mt-0.5" style={{color: agent.domain.includes(cat.id) ? 'var(--accent)' : 'var(--muted)'}}>
+                      {agent.domain.includes(cat.id) ? '■' : '□'}
+                    </span>
+                    <span>{cat.label}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-6 space-y-3">
+                <Field label="Your written classification" required>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    {[{v:'yes',l:'High-risk'},{v:'no',l:'Not high-risk'},{v:'unclear',l:'Unclear / pending review'}].map(o => (
+                      <button key={o.v} onClick={() => setAgent({...agent, highRiskFlag: o.v})}
+                        className={`p-3 text-sm border transition-colors ${agent.highRiskFlag === o.v ? 'border-[var(--ink)] bg-[var(--ink)] text-[var(--paper)]' : 'border-[var(--border-strong)] hover:border-[var(--ink)]'}`}>
+                        {o.l}
+                      </button>
+                    ))}
+                  </div>
+                </Field>
+              </div>
+            </div>
+
+            <div className="rule"></div>
+
+            <div>
+              <div className="marker-num mb-2">B2 · SECTOR</div>
+              <h2 className="display text-3xl mb-1">Deployment sector</h2>
+              <p className="text-sm text-[var(--muted)] mb-6 italic">Determines which sector-specific retention rules apply in the Gap Register.</p>
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+                {[
+                  {id:'financial_services', label:'Financial Services'},
+                  {id:'healthcare',         label:'Healthcare'},
+                  {id:'public_sector',      label:'Public Sector'},
+                  {id:'employment_hr',      label:'Employment / HR'},
+                  {id:'other',              label:'Other'},
+                ].map(s => (
+                  <button key={s.id} onClick={() => setAgent({...agent, sector: s.id})}
+                    className={`p-2.5 text-left text-sm border transition-colors ${agent.sector === s.id ? 'border-[var(--ink)] bg-[var(--accent-soft)]' : 'border-[var(--border-strong)] hover:border-[var(--ink)]'}`}>
+                    {s.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="rule"></div>
+
+            <div>
+              <div className="marker-num mb-2">C · SCOPE & AUTONOMY</div>
+              <h2 className="display text-3xl mb-1">What it touches, how it acts</h2>
+              <div className="space-y-5 mt-6">
+                <Field label="Systems and data touched" hint="Source systems, datastores, downstream targets. One per line.">
+                  <textarea className="field-input" rows={3} placeholder="e.g.&#10;Core banking system (read)&#10;Customer KYC store (read)&#10;Compliance case queue (write)" value={agent.systems} onChange={e => setAgent({...agent, systems: e.target.value})} />
+                </Field>
+                <Field label="Autonomy level" required hint="Edition 3 — Oversight Spectrum">
+                  <div className="grid md:grid-cols-2 gap-2">
+                    {AUTONOMY_LEVELS.map(l => (
+                      <button key={l.id} onClick={() => setAgent({...agent, autonomy: l.id})}
+                        className={`p-3 text-left text-sm border transition-colors ${agent.autonomy === l.id ? 'border-[var(--ink)] bg-[var(--accent-soft)]' : 'border-[var(--border-strong)] hover:border-[var(--ink)]'}`}>
+                        <div className="font-medium mb-0.5">{l.label}</div>
+                        <div className="text-xs text-[var(--muted)]">{l.detail}</div>
+                      </button>
+                    ))}
+                  </div>
+                </Field>
+              </div>
+            </div>
+
+            <div className="rule"></div>
+
+            <div>
+              <div className="marker-num mb-2">D · DEPLOYMENT STATUS</div>
+              <h2 className="display text-3xl mb-1">Where is this agent today?</h2>
+              <p className="text-sm text-[var(--muted)] mb-6 italic">Shapes the workspace. Retrofit mode adds production-status flags to every primitive.</p>
+              <div className="grid md:grid-cols-3 gap-2 mb-6">
+                {DEPLOYMENT_MODES.map(m => (
+                  <button key={m.id} onClick={() => setAgent({...agent, deploymentStatus: m.id, horizon: ''})}
+                    className={`p-3 text-left text-sm border transition-colors ${agent.deploymentStatus === m.id ? 'border-[var(--ink)] bg-[var(--accent-soft)]' : 'border-[var(--border-strong)] hover:border-[var(--ink)]'}`}>
+                    <div className="font-medium mb-0.5">{m.label}</div>
+                    <div className="text-xs text-[var(--muted)] leading-snug">{m.detail}</div>
+                  </button>
+                ))}
+              </div>
+              {agent.deploymentStatus && (
+                <Field label={agent.deploymentStatus === 'retrofit' ? 'Remediation horizon' : 'Deployment horizon'} required hint="The sequence in §6 will scale to fit this window.">
+                  <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+                    {horizonOptions.map(h => (
+                      <button key={h.id} onClick={() => setAgent({...agent, horizon: h.id})}
+                        className={`p-2.5 text-left border transition-colors ${agent.horizon === h.id ? 'border-[var(--ink)] bg-[var(--accent-soft)]' : 'border-[var(--border-strong)] hover:border-[var(--ink)]'}`}>
+                        <div className="text-sm font-medium">{h.label}</div>
+                        <div className="text-[10px] text-[var(--muted)]">{h.detail}</div>
+                      </button>
+                    ))}
+                  </div>
+                  <p className="text-xs text-[var(--muted)] mt-1">Minimum 14 days · Maximum 365 days.</p>
+                </Field>
+              )}
+            </div>
+
+            <div className="rule"></div>
+
+            <div>
+              <div className="marker-num mb-2">E · ROLE LOCK</div>
+              <div className="flex items-baseline gap-3 mb-2">
+                <h2 className="display text-3xl">Deployer (Art. 26)</h2>
+                <Pill tone="ink">v1.1 SCOPE</Pill>
+              </div>
+              <p className="text-sm text-[var(--muted)] italic leading-relaxed max-w-xl">
+                This tool produces artifacts for the deployer role only. If you are also the provider, you will need additional documentation under Articles 9–15.
+              </p>
+            </div>
+
+            <div className="rule"></div>
+
+            <div>
+              <div className="marker-num mb-2">F · CONDITIONAL MODULES</div>
+              <h2 className="display text-3xl mb-1">Scope flags</h2>
+              <p className="text-sm text-[var(--muted)] mb-6 italic leading-relaxed">
+                Enable additional profile sections for EU AI Act obligations that apply only in specific deployment contexts.
+              </p>
+              <div className="space-y-4">
+                <label className="flex items-start gap-3 cursor-pointer">
+                  <input type="checkbox" checked={deployerControlsInput} onChange={e => setDeployerControlsInput(e.target.checked)}
+                    className="mt-1 w-4 h-4 border border-[var(--border-strong)]" />
+                  <div>
+                    <div className="font-medium text-sm">Deployer controls input data <ObligationTag>ART. 26(4)</ObligationTag></div>
+                    <div className="text-xs text-[var(--muted)] mt-0.5 leading-relaxed">
+                      You determine the data used to operate the system — adds Input Data Governance section to the profile.
+                    </div>
+                  </div>
+                </label>
+                <label className="flex items-start gap-3 cursor-pointer">
+                  <input type="checkbox" checked={affectsNaturalPersons} onChange={e => setAffectsNaturalPersons(e.target.checked)}
+                    className="mt-1 w-4 h-4 border border-[var(--border-strong)]" />
+                  <div>
+                    <div className="font-medium text-sm">Agent decisions affect natural persons <ObligationTag>ART. 26(11)</ObligationTag></div>
+                    <div className="text-xs text-[var(--muted)] mt-0.5 leading-relaxed">
+                      The agent makes or influences decisions about people under Annex III — adds Affected-Persons Transparency section.
+                    </div>
+                  </div>
+                </label>
+                <label className="flex items-start gap-3 cursor-pointer">
+                  <input type="checkbox" checked={workplaceDeployment} onChange={e => setWorkplaceDeployment(e.target.checked)}
+                    className="mt-1 w-4 h-4 border border-[var(--border-strong)]" />
+                  <div>
+                    <div className="font-medium text-sm">Workplace deployment <ObligationTag>ART. 26(7)</ObligationTag></div>
+                    <div className="text-xs text-[var(--muted)] mt-0.5 leading-relaxed">
+                      The agent is deployed in a workplace context affecting workers — adds Workplace Transparency section with pre-service notice requirements.
+                    </div>
+                  </div>
+                </label>
+              </div>
+              <p className="text-xs text-[var(--muted)] italic mt-4">
+                A FRIA/DPIA reference section is included in every profile.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex justify-between items-center mt-8 no-print">
+            <button className="btn-ghost" onClick={() => setStage('welcome')}>← Back</button>
+            <button className="btn-primary" disabled={!canProceed} onClick={() => setStage('dashboard')}>Continue to dashboard →</button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ==========================================================================
+  // DASHBOARD
+  // ==========================================================================
+  if (stage === 'dashboard') {
+    const cards = [
+      { id: 'maturity', num: 'M', edition: 'Triage', title: 'Maturity Check', sub: 'Optional 90-second readiness diagnostic.', done: completion.maturity, optional: true },
+      { id: 'boundary', num: 'P-01', edition: 'Edition 2', title: 'Decision Boundary Contract', sub: isRetrofit ? 'What the agent currently does — and what it should — as a contract.' : 'What the agent may do — and may not — as a contract, not a capability list.', done: completion.boundary },
+      { id: 'oversight', num: 'P-02', edition: 'Edition 3', title: 'Oversight Trigger Matrix', sub: 'Where a human enters. Named, calibrated, conditional.', done: completion.oversight },
+      { id: 'suspension', num: 'P-03', edition: 'Art. 26(5)', title: 'Suspension Authority Ledger', sub: 'Who can suspend the agent, on what trigger, and who gets notified.', done: completion.suspension },
+      { id: 'accountability', num: 'P-04', edition: 'Edition 4', title: 'Accountability Canvas', sub: 'Four owners — decision, oversight, technical, compliance.', done: completion.accountability },
+      { id: 'audit', num: 'P-05', edition: 'Edition 5', title: 'Audit Schema', sub: 'Handoff Receipt structure. Queryable fields, retention.', done: completion.audit },
+      { id: 'implementation', num: 'P-06', edition: 'Edition 6', title: isRetrofit ? 'Remediation Sequence' : 'Implementation Sequence', sub: isRetrofit ? 'Prioritized gap-closure plan — assembled from your inputs.' : 'Deployment sequence scaled to your horizon — assembled from your inputs.', done: requiredComplete, auto: true },
+    ];
+
+    const modeBadge = DEPLOYMENT_MODES.find(m => m.id === agent.deploymentStatus);
+    const horizonLabel = (agent.deploymentStatus === 'retrofit' ? HORIZON_OPTIONS_RETROFIT : HORIZON_OPTIONS_PRE).find(h => h.id === agent.horizon)?.label;
+
+    return (
+      <div className="min-h-screen p-6 md:p-10 fade-in">
+        <div className="max-w-4xl mx-auto">
+          <Header step="Screen 2" title={isRetrofit ? 'Six Primitives — Retrofit' : 'Six Primitives'} progressLabel="Step 2 of 2" progress={1} />
+
+          <div className="paper-edge p-6 mt-8 mb-6 flex flex-wrap gap-x-8 gap-y-3 items-baseline">
+            <div>
+              <div className="marker-num">AGENT</div>
+              <div className="display text-2xl">{agent.name}</div>
+            </div>
+            <div>
+              <div className="marker-num">MODE</div>
+              <div className="text-sm">{modeBadge?.label} · {horizonLabel}</div>
+            </div>
+            <div>
+              <div className="marker-num">CLASSIFICATION</div>
+              <div className="text-sm">
+                {agent.highRiskFlag === 'yes' && <span style={{color: 'var(--gap)'}}>High-risk</span>}
+                {agent.highRiskFlag === 'no' && <span>Not high-risk</span>}
+                {agent.highRiskFlag === 'unclear' && <span style={{color: 'var(--accent)'}}>Unclear · pending review</span>}
+              </div>
+            </div>
+            <div>
+              <div className="marker-num">AUTONOMY</div>
+              <div className="text-sm">{AUTONOMY_LEVELS.find(a => a.id === agent.autonomy)?.label}</div>
+            </div>
+            <button className="ml-auto text-xs underline text-[var(--muted)] hover:text-[var(--ink)]" onClick={() => setStage('agentDef')}>Edit definition</button>
+          </div>
+
+          {isRetrofit && (
+            <div className="paper-edge p-4 mb-6" style={{background: 'var(--accent-soft)', borderColor: 'var(--accent)'}}>
+              <div className="mono text-[10px] tracking-widest mb-1" style={{color: 'var(--accent)'}}>RETROFIT MODE</div>
+              <p className="text-sm leading-relaxed">
+                For every item below, mark whether it is currently <strong>In place</strong>, <strong>Partial</strong>, or <strong>Missing</strong> in production. Items not "In place" become the Gap Register and drive the Remediation Sequence.
+              </p>
+            </div>
+          )}
+
+          <div className="grid md:grid-cols-2 gap-3">
+            {cards.map(card => (
+              <button key={card.id} onClick={() => card.id !== 'implementation' && setOpenCard(card.id)} disabled={card.id === 'implementation'}
+                className={`paper-edge card-hover text-left p-6 ${card.id === 'implementation' ? 'opacity-90 cursor-default' : 'cursor-pointer'}`}>
+                <div className="flex items-start justify-between mb-3">
+                  <div><div className="marker-num">{card.num} · {card.edition.toUpperCase()}</div></div>
+                  <div>
+                    {card.done && !card.auto && <CompleteTag>● COMPLETE</CompleteTag>}
+                    {card.done && card.auto && <CompleteTag>AUTO-READY</CompleteTag>}
+                    {!card.done && card.optional && <Pill tone="muted">OPTIONAL</Pill>}
+                    {!card.done && !card.optional && !card.auto && <Pill tone="gap">PENDING</Pill>}
+                    {!card.done && card.auto && <Pill tone="muted">LOCKED</Pill>}
+                  </div>
+                </div>
+                <h3 className="display text-2xl leading-tight mb-2">{card.title}</h3>
+                <p className="text-sm text-[var(--muted)] leading-relaxed">{card.sub}</p>
+                {card.auto && <p className="text-xs italic mt-3" style={{color: 'var(--accent)'}}>{card.done ? 'Will be generated when you produce your profile.' : 'Unlocks once the five primitives above are complete.'}</p>}
+              </button>
+            ))}
+          </div>
+
+          <div className="mt-10 paper-edge p-6 flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <div className="marker-num mb-1">PROFILE STATUS</div>
+              <div className="text-sm">{completedCount} of 5 required primitives complete.{requiredComplete && <span style={{color: 'var(--complete)'}}> · Ready to generate.</span>}</div>
+              <div className="progress-rail mt-3" style={{maxWidth: '280px'}}><div className="progress-fill" style={{width: `${(completedCount / 4) * 100}%`}}></div></div>
+            </div>
+            <button className="btn-primary" disabled={!requiredComplete} onClick={() => setStage('emailGate')}>
+              Generate {isRetrofit ? 'Remediation' : 'Governance'} Profile →
+            </button>
+          </div>
+
+          <p className="text-xs text-[var(--muted)] italic mt-6 text-center max-w-xl mx-auto leading-relaxed">
+            v1.1 session is not saved. Agent register, version history, machine-readable exports, AI assist — paid tier.
+          </p>
+        </div>
+
+        {openCard === 'maturity' && <MaturityEditor value={maturity} onSave={v => { setMaturity(v); setOpenCard(null); }} onClose={() => setOpenCard(null)} />}
+        {openCard === 'boundary' && <BoundaryEditor value={boundary} isRetrofit={isRetrofit} onSave={v => { setBoundary(v); setOpenCard(null); }} onClose={() => setOpenCard(null)} />}
+        {openCard === 'oversight' && <OversightEditor value={oversight} boundary={boundary} isRetrofit={isRetrofit} onSave={v => { setOversight(v); setOpenCard(null); }} onClose={() => setOpenCard(null)} />}
+        {openCard === 'suspension' && <SuspensionEditor value={suspension} isRetrofit={isRetrofit} onSave={v => { setSuspension(v); setOpenCard(null); }} onClose={() => setOpenCard(null)} />}
+        {openCard === 'accountability' && <AccountabilityEditor value={accountability} isRetrofit={isRetrofit} onSave={v => { setAccountability(v); setOpenCard(null); }} onClose={() => setOpenCard(null)} />}
+        {openCard === 'audit' && <AuditEditor value={audit} isRetrofit={isRetrofit} onSave={v => { setAudit(v); setOpenCard(null); }} onClose={() => setOpenCard(null)} />}
+      </div>
+    );
+  }
+
+  // ==========================================================================
+  // EMAIL GATE
+  // ==========================================================================
+  if (stage === 'emailGate') {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-8 fade-in">
+        <div className="max-w-lg w-full">
+          <div className="mono text-xs tracking-widest text-[var(--muted)] mb-4">ALMOST DONE / STEP 3 OF 3</div>
+          <h2 className="display text-4xl leading-tight mb-4">Your profile is ready to generate.</h2>
+          <p className="text-[var(--muted)] leading-relaxed mb-8">Enter your email to view and export your {isRetrofit ? 'Remediation' : 'Governance'} Profile. We'll also send you the Automate & Elevate newsletter — one framework per week, built for regulated environments.</p>
+          <Field label="Email" required>
+            <input className="field-input" type="email" placeholder="name@company.com" value={email} onChange={e => setEmail(e.target.value)} />
+          </Field>
+          <div className="flex justify-between items-center mt-6">
+            <button className="btn-ghost" onClick={() => setStage('dashboard')}>← Back to dashboard</button>
+            <button className="btn-primary" disabled={!email || !email.includes('@')}
+              onClick={async () => {
+                try {
+                  await fetch('https://formspree.io/f/mykqenpk', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      'Accept': 'application/json',
+                    },
+                    body: JSON.stringify({
+                      email,
+                      agent_name: agent.name,
+                      mode: agent.deploymentStatus,
+                    }),
+                  });
+                } catch (e) {
+                  // Silent fail — don't block profile generation if Formspree is down
+                }
+                setStage('profile');
+              }}>Generate Profile →</button>
+          </div>
+          <p className="text-xs text-[var(--muted)] italic mt-8">Your email is used to send the Automate & Elevate newsletter. Unsubscribe any time. No spam.</p>
+        </div>
+      </div>
+    );
+  }
+
+  // ==========================================================================
+  // PROFILE
+  // ==========================================================================
+  if (stage === 'profile') {
+    return <ProfileView
+      agent={agent} maturity={maturity} boundary={boundary} oversight={oversight} suspension={suspension}
+      accountability={accountability} audit={audit} isRetrofit={isRetrofit}
+      deployerControlsInput={deployerControlsInput} affectsNaturalPersons={affectsNaturalPersons} workplaceDeployment={workplaceDeployment}
+      onBack={() => setStage('dashboard')} />;
+  }
+
+  return null;
+}
+
+// ============================================================================
+// HEADER
+// ============================================================================
+function Header({ step, title, progressLabel, progress }) {
+  return (
+    <div className="no-print">
+      <div className="flex items-baseline justify-between mb-3">
+        <div className="mono text-xs tracking-widest text-[var(--muted)]">AGENTIC GOVERNANCE PROFILE BUILDER / {step.toUpperCase()}</div>
+        <div className="flex items-baseline gap-6">
+          <a href="https://www.aistreamlinehub.com" className="mono text-xs tracking-widest text-[var(--muted)] hover:text-[var(--ink)] transition-colors">← aistreamlinehub.com</a>
+          <div className="mono text-xs tracking-widest text-[var(--muted)]">{progressLabel}</div>
+        </div>
+      </div>
+      <h1 className="display text-3xl md:text-4xl">{title}</h1>
+      <div className="progress-rail mt-6"><div className="progress-fill" style={{width: `${progress * 100}%`}}></div></div>
+    </div>
+  );
+}
+
+// ============================================================================
+// EDITOR SHELL
+// ============================================================================
+function EditorShell({ marker, title, subtitle, edition, children, onSave, onClose, saveDisabled }) {
+  return (
+    <div className="fixed inset-0 z-50 overflow-y-auto scrollbar-clean fade-in" style={{background: 'var(--paper)'}}>
+      <div className="max-w-3xl mx-auto p-6 md:p-10 pb-32">
+        <div className="flex items-baseline justify-between mb-6 flex-wrap gap-y-2">
+          <div className="mono text-xs tracking-widest text-[var(--muted)]">{marker} · {edition.toUpperCase()}</div>
+          <button onClick={onClose} className="text-sm text-[var(--muted)] hover:text-[var(--ink)] underline">Close without saving</button>
+        </div>
+        <h2 className="display text-4xl md:text-5xl mb-3 leading-tight">{title}</h2>
+        <p className="text-[var(--muted)] italic leading-relaxed mb-10 max-w-2xl">{subtitle}</p>
+        <div className="paper-edge p-8 md:p-10">{children}</div>
+      </div>
+      <div className="fixed bottom-0 left-0 right-0 paper-edge border-t no-print" style={{background: 'var(--paper)'}}>
+        <div className="max-w-3xl mx-auto p-4 flex justify-between items-center flex-wrap gap-2">
+          <button onClick={onClose} className="btn-ghost">Cancel</button>
+          <button onClick={onSave} disabled={saveDisabled} className="btn-primary">Save & return to dashboard →</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================================
+// MATURITY EDITOR
+// ============================================================================
+function MaturityEditor({ value, onSave, onClose }) {
+  const [answers, setAnswers] = useState(value?.answers || { q1: null, q2: null, q3: null, q4: null, q5: null });
+  const allAnswered = Object.values(answers).every(a => a !== null);
+  const score = useMemo(() => {
+    if (!allAnswered) return null;
+    const sum = Object.values(answers).reduce((s, v) => s + v, 0);
+    return sum >= 8 ? 'green' : sum >= 4 ? 'yellow' : 'red';
+  }, [answers, allAnswered]);
+  const weakest = useMemo(() => {
+    if (!allAnswered) return [];
+    return Object.entries(answers).sort((a, b) => a[1] - b[1]).slice(0, 2).map(([k]) => MATURITY_TO_PRIMITIVE[k]);
+  }, [answers, allAnswered]);
+
+  return (
+    <EditorShell marker="M" edition="Edition 1 — The Governance Gap" title="Maturity Check"
+      subtitle="Five questions. Where is the structural gap on this agent? Optional, but most users find it changes how they fill the rest of the workspace."
+      onSave={() => onSave({ answers, score, weakest })} onClose={onClose} saveDisabled={!allAnswered}>
+      <div className="space-y-7">
+        {MATURITY_QUESTIONS.map((q, i) => (
+          <div key={q.id}>
+            <div className="flex items-start gap-3 mb-3">
+              <span className="mono text-xs mt-1 text-[var(--muted)]">{String(i+1).padStart(2,'0')}</span>
+              <p className="text-[15px] leading-relaxed">{q.text}</p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 ml-8">
+              {[{v:0,l:'Not in place'},{v:1,l:'Partial'},{v:2,l:'Fully in place'}].map(o => (
+                <button key={o.v} onClick={() => setAnswers({...answers, [q.id]: o.v})}
+                  className={`p-2.5 text-xs border transition-colors ${answers[q.id] === o.v ? 'border-[var(--ink)] bg-[var(--ink)] text-[var(--paper)]' : 'border-[var(--border-strong)] hover:border-[var(--ink)]'}`}>
+                  {o.l}
+                </button>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      {allAnswered && (
+        <div className="mt-10 pt-8 rule">
+          <div className="marker-num mb-2">PREVIEW · DIAGNOSTIC</div>
+          <div className="flex items-baseline gap-3 mb-4">
+            <h3 className="display text-3xl">
+              {score === 'green' && 'Structurally ready.'}
+              {score === 'yellow' && 'Partial readiness.'}
+              {score === 'red' && 'Significant structural gap.'}
+            </h3>
+            <Pill tone={score === 'green' ? 'complete' : score === 'red' ? 'gap' : 'accent'}>{score?.toUpperCase()}</Pill>
+          </div>
+          <p className="text-sm text-[var(--muted)] mb-3">Two weakest primitives:</p>
+          <ul className="text-sm space-y-1">{weakest.map(p => <li key={p}>· <span className="font-medium">{p}</span></li>)}</ul>
+        </div>
+      )}
+    </EditorShell>
+  );
+}
+
+// ============================================================================
+// LIST EDITOR (extracted from BoundaryEditor to prevent remount on each keystroke)
+// ============================================================================
+function ListEditor({ items, setItems, placeholder, isRetrofit }) {
+  return (
+    <div className="space-y-2">
+      {items.map((item, i) => (
+        <div key={i} className="paper-edge p-3">
+          <div className="flex items-center gap-2">
+            <span className="mono text-xs text-[var(--muted)] w-6">{String(i+1).padStart(2,'0')}</span>
+            <input className="field-input flex-1" placeholder={placeholder}
+              value={item.text} onChange={e => { const next = [...items]; next[i] = {...next[i], text: e.target.value}; setItems(next); }} />
+            {items.length > 1 && (
+              <button onClick={() => setItems(items.filter((_, idx) => idx !== i))} className="text-[var(--muted)] hover:text-[var(--gap)] px-2 mono text-xs">×</button>
+            )}
+          </div>
+          {isRetrofit && (
+            <div className="mt-2 ml-8 flex items-center gap-3">
+              <span className="text-[10px] mono uppercase text-[var(--muted)]">Production status:</span>
+              <StatusSelector value={item.status} onChange={v => { const next = [...items]; next[i] = {...next[i], status: v}; setItems(next); }} />
+            </div>
+          )}
+        </div>
+      ))}
+      <button onClick={() => setItems([...items, { text: '', status: '' }])} className="text-xs text-[var(--muted)] hover:text-[var(--ink)] underline mt-2">+ Add row</button>
+    </div>
+  );
+}
+
+// ============================================================================
+// BOUNDARY EDITOR (P-01)
+// ============================================================================
+function BoundaryEditor({ value, isRetrofit, onSave, onClose }) {
+  // Normalize: items are {text, status}
+  const norm = arr => arr.length ? arr : [{ text: '', status: '' }];
+  const [allowed, setAllowed] = useState(norm(value.allowed));
+  const [prohibited, setProhibited] = useState(norm(value.prohibited));
+  const [conditional, setConditional] = useState(value.conditional.length ? value.conditional : [{ action: '', trigger: '', status: '' }]);
+
+  const cleanAllowed = allowed.filter(a => a.text.trim());
+  const cleanProhibited = prohibited.filter(a => a.text.trim());
+  const cleanConditional = conditional.filter(c => c.action.trim() && c.trigger.trim());
+  const canSave = cleanAllowed.length >= 1 && cleanProhibited.length >= 1;
+
+  return (
+    <EditorShell marker="P-01" edition="Edition 2 — What Boundaries Actually Mean" title="Decision Boundary Contract"
+      subtitle={isRetrofit
+        ? "Define the contract that should govern this agent. For each item, mark whether it's actually enforced in production today."
+        : "A capability list says what the agent can do. A boundary contract says what it may do — and under what conditions. The difference matters when something goes wrong."}
+      onSave={() => onSave({ allowed: cleanAllowed, prohibited: cleanProhibited, conditional: cleanConditional })} onClose={onClose} saveDisabled={!canSave}>
+      <div className="space-y-10">
+        <div>
+          <div className="flex items-baseline gap-2 mb-1"><h3 className="display text-2xl">Allowed actions</h3><ObligationTag>ART. 26(1)</ObligationTag></div>
+          <p className="text-sm text-[var(--muted)] italic mb-4">Actions the agent may execute without conditions.</p>
+          <ListEditor items={allowed} setItems={setAllowed} isRetrofit={isRetrofit} placeholder="e.g. Read transaction record from core banking" />
+        </div>
+        <div className="rule"></div>
+        <div>
+          <div className="flex items-baseline gap-2 mb-1"><h3 className="display text-2xl">Prohibited actions</h3><ObligationTag>ART. 26(1)</ObligationTag></div>
+          <p className="text-sm text-[var(--muted)] italic mb-4">Actions the agent must not execute under any condition. Explicit prohibitions, not absences.</p>
+          <ListEditor items={prohibited} setItems={setProhibited} isRetrofit={isRetrofit} placeholder="e.g. Modify customer account fields" />
+        </div>
+        <div className="rule"></div>
+        <div>
+          <div className="flex items-baseline gap-2 mb-1"><h3 className="display text-2xl">Conditional actions</h3><ObligationTag>ART. 26(1)</ObligationTag></div>
+          <p className="text-sm text-[var(--muted)] italic mb-4">Actions permitted only when a specific condition is met. Optional.</p>
+          <div className="space-y-3">
+            {conditional.map((c, i) => (
+              <div key={i} className="paper-edge p-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="mono text-xs text-[var(--muted)] w-6">{String(i+1).padStart(2,'0')}</span>
+                  <span className="mono text-[10px] text-[var(--muted)]">CONDITIONAL PAIR</span>
+                  {conditional.length > 1 && <button onClick={() => setConditional(conditional.filter((_, idx) => idx !== i))} className="ml-auto text-[var(--muted)] hover:text-[var(--gap)] mono text-xs">×</button>}
+                </div>
+                <input className="field-input mb-2" placeholder="Action — e.g. Auto-approve transaction under €10,000"
+                  value={c.action} onChange={e => { const next = [...conditional]; next[i] = {...next[i], action: e.target.value}; setConditional(next); }} />
+                <input className="field-input" placeholder="Trigger — e.g. Risk score < 0.3 AND customer KYC tier ≥ 2"
+                  value={c.trigger} onChange={e => { const next = [...conditional]; next[i] = {...next[i], trigger: e.target.value}; setConditional(next); }} />
+                {isRetrofit && (
+                  <div className="mt-3 flex items-center gap-3">
+                    <span className="text-[10px] mono uppercase text-[var(--muted)]">Production status:</span>
+                    <StatusSelector value={c.status} onChange={v => { const next = [...conditional]; next[i] = {...next[i], status: v}; setConditional(next); }} />
+                  </div>
+                )}
+              </div>
+            ))}
+            <button onClick={() => setConditional([...conditional, { action: '', trigger: '', status: '' }])} className="text-xs text-[var(--muted)] hover:text-[var(--ink)] underline">+ Add conditional pair</button>
+          </div>
+        </div>
+      </div>
+    </EditorShell>
+  );
+}
+
+// ============================================================================
+// OVERSIGHT EDITOR (P-02)
+// ============================================================================
+function OversightEditor({ value, boundary, isRetrofit, onSave, onClose }) {
+  const sourceActions = useMemo(() => [
+    ...(boundary.allowed || []).map(a => ({ action: a.text || a, type: 'allowed' })),
+    ...(boundary.conditional || []).map(c => ({ action: c.action, type: 'conditional' })),
+  ].filter(a => a.action && a.action.trim()), [boundary]);
+
+  const [rows, setRows] = useState(() => {
+    if (!value.length) {
+      return sourceActions.map(a => ({ action: a.action, level: '', trigger: '', status: '' }));
+    }
+    // Merge: keep existing configured rows, append any new boundary actions not yet present
+    const existingActions = new Set(value.map(r => r.action));
+    const newRows = sourceActions
+      .filter(a => !existingActions.has(a.action))
+      .map(a => ({ action: a.action, level: '', trigger: '', status: '' }));
+    return [...value, ...newRows];
+  });
+  const cleanRows = rows.filter(r => r.action.trim() && r.level);
+  const canSave = cleanRows.length >= 1;
+
+  return (
+    <EditorShell marker="P-02" edition="Edition 3 — Oversight That Doesn't Become a Bottleneck" title="Oversight Trigger Matrix"
+      subtitle="Reflexive oversight on everything creates a bottleneck. Calibrated oversight on the right actions, at the right triggers, holds under scrutiny."
+      onSave={() => onSave(cleanRows)} onClose={onClose} saveDisabled={!canSave}>
+      <div className="flex items-baseline gap-2 mb-4"><h3 className="display text-2xl">Per-action oversight</h3><ObligationTag>ART. 14 — HUMAN OVERSIGHT</ObligationTag></div>
+      <p className="text-sm text-[var(--muted)] italic mb-6">Each allowed or conditional action from the Boundary Contract carries an oversight level and an entry condition.</p>
+
+      {sourceActions.length === 0 && (
+        <div className="paper-edge p-6 mb-6" style={{borderColor: 'var(--gap)', background: 'var(--gap-soft)'}}>
+          <div className="mono text-xs mb-2" style={{color: 'var(--gap)'}}>UPSTREAM GAP</div>
+          <p className="text-sm">Complete the Decision Boundary Contract first — actions defined there populate this matrix automatically.</p>
+        </div>
+      )}
+
+      <div className="space-y-3">
+        {rows.map((row, i) => (
+          <div key={i} className="paper-edge p-4">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="mono text-xs text-[var(--muted)] w-6">{String(i+1).padStart(2,'0')}</span>
+              <span className="mono text-[10px] text-[var(--muted)]">OVERSIGHT ROW</span>
+              <button onClick={() => setRows(rows.filter((_, idx) => idx !== i))} className="ml-auto text-[var(--muted)] hover:text-[var(--gap)] mono text-xs">×</button>
+            </div>
+            <input className="field-input mb-3" placeholder="Action"
+              value={row.action} onChange={e => { const next = [...rows]; next[i] = {...next[i], action: e.target.value}; setRows(next); }} />
+            <div className="grid grid-cols-4 gap-1 mb-3">
+              {AUTONOMY_LEVELS.map(l => (
+                <button key={l.id} onClick={() => { const next = [...rows]; next[i] = {...next[i], level: l.id}; setRows(next); }}
+                  className={`p-2 text-xs border transition-colors ${row.level === l.id ? 'border-[var(--ink)] bg-[var(--accent-soft)]' : 'border-[var(--border-strong)] hover:border-[var(--ink)]'}`}>
+                  {l.label}
+                </button>
+              ))}
+            </div>
+            <input className="field-input" placeholder="Trigger / entry condition — e.g. Confidence < 0.7, or any flagged sanctions hit"
+              value={row.trigger} onChange={e => { const next = [...rows]; next[i] = {...next[i], trigger: e.target.value}; setRows(next); }} />
+            {isRetrofit && (
+              <div className="mt-3 flex items-center gap-3">
+                <span className="text-[10px] mono uppercase text-[var(--muted)]">Production status:</span>
+                <StatusSelector value={row.status} onChange={v => { const next = [...rows]; next[i] = {...next[i], status: v}; setRows(next); }} />
+              </div>
+            )}
+          </div>
+        ))}
+        <button onClick={() => setRows([...rows, { action: '', level: '', trigger: '', status: '' }])} className="text-xs text-[var(--muted)] hover:text-[var(--ink)] underline mt-2">+ Add custom oversight row</button>
+      </div>
+    </EditorShell>
+  );
+}
+
+// ============================================================================
+
+// ============================================================================
+// SUSPENSION EDITOR (P-03)
+// ============================================================================
+function SuspensionEditor({ value, isRetrofit, onSave, onClose }) {
+  const [v, setV] = React.useState(value);
+  const canSave = !!v.authority;
+
+  return (
+    <EditorShell marker="P-03" edition="Art. 26(5) — Suspension Authority" title="Suspension Authority Ledger"
+      subtitle="Article 26(5) requires deployers to monitor the system, suspend its use where it may present a risk, and report serious incidents. The Ledger names who holds that authority and what triggers it."
+      onSave={() => onSave(v)} onClose={onClose} saveDisabled={!canSave}>
+      <ObligationTag>ART. 26(5) — SUSPENSION DUTY</ObligationTag>
+      <div className="space-y-6 mt-6">
+        <Field label="Suspension authority" hint="The named individual or role who holds the power to suspend this agent. Must be a person, not a committee.">
+          <input className="field-input" placeholder="e.g. Head of AI Risk, Sarah Müller"
+            value={v.authority} onChange={e => setV({...v, authority: e.target.value})} />
+          {isRetrofit && (
+            <div className="mt-2 flex items-center gap-3">
+              <span className="text-[10px] mono uppercase text-[var(--muted)]">Documented today?</span>
+              <StatusSelector value={v.status} onChange={s => setV({...v, status: s})} />
+            </div>
+          )}
+        </Field>
+        <Field label="Trigger conditions" hint="The observable conditions that obligate the authority holder to suspend. Be specific — vague triggers create audit risk.">
+          <textarea className="field-input" rows={3}
+            placeholder={"e.g.\nSanctions false-positive rate exceeds 5% in any 24-hour window\nAny uncontrolled output reaching an external party\nAI provider issues high-severity incident notice"}
+            value={v.trigger} onChange={e => setV({...v, trigger: e.target.value})} />
+        </Field>
+        <Field label="Notification chain" hint="Who must be notified on suspension, in what order. Art. 26(5) requires notification to the provider and, for serious incidents, market surveillance authorities.">
+          <textarea className="field-input" rows={3}
+            placeholder={"e.g.\n1. AI provider (within 24h)\n2. Head of Compliance\n3. National market surveillance authority (serious incidents only)"}
+            value={v.notificationChain} onChange={e => setV({...v, notificationChain: e.target.value})} />
+        </Field>
+      </div>
+    </EditorShell>
+  );
+}
+
+// ACCOUNTABILITY EDITOR (P-04)
+// ============================================================================
+function AccountabilityEditor({ value, isRetrofit, onSave, onClose }) {
+  const [v, setV] = useState(value);
+  const canSave = v.decision.name && v.oversight.name && v.technical.name && v.compliance.name;
+  const roles = [
+    { id: 'decision', label: 'Decision Owner', detail: 'Owns the decision the agent is supporting.' },
+    { id: 'oversight', label: 'Oversight Owner', detail: 'Named human who acts on the Trigger Matrix.' },
+    { id: 'technical', label: 'Technical Owner', detail: 'Owns the agent\'s runtime behaviour and configuration.' },
+    { id: 'compliance', label: 'Compliance Owner', detail: 'Owns the regulator-facing record. Signs the profile.' },
+  ];
+
+  return (
+    <EditorShell marker="P-04" edition="Edition 4 — Who's Accountable When the Agent Acts?" title="Accountability Canvas"
+      subtitle="One page. Four owners. Diffuse accountability fails in incident review — names hold."
+      onSave={() => onSave(v)} onClose={onClose} saveDisabled={!canSave}>
+      <div className="flex items-baseline gap-2 mb-6"><h3 className="display text-2xl">Four named owners</h3><ObligationTag>ART. 26(2)</ObligationTag></div>
+      <div className="grid md:grid-cols-2 gap-4">
+        {roles.map(r => (
+          <div key={r.id} className="paper-edge p-5">
+            <div className="marker-num mb-1">{r.id.toUpperCase()}</div>
+            <h4 className="display text-xl mb-1">{r.label}</h4>
+            <p className="text-xs text-[var(--muted)] italic mb-4 leading-relaxed">{r.detail}</p>
+            <input className="field-input mb-2" placeholder="Name" value={v[r.id].name} onChange={e => setV({...v, [r.id]: {...v[r.id], name: e.target.value}})} />
+            <input className="field-input" placeholder="Title" value={v[r.id].title} onChange={e => setV({...v, [r.id]: {...v[r.id], title: e.target.value}})} />
+            {isRetrofit && (
+              <div className="mt-3">
+                <span className="text-[10px] mono uppercase text-[var(--muted)] block mb-1">Documented today?</span>
+                <StatusSelector value={v[r.id].status} onChange={s => setV({...v, [r.id]: {...v[r.id], status: s}})} />
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+      <p className="text-xs text-[var(--muted)] italic mt-6 max-w-xl">The same person may hold more than one role — but every role must have a name. "TBD" is not a deployer record.</p>
+    </EditorShell>
+  );
+}
+
+// ============================================================================
+// AUDIT EDITOR (P-05)
+// ============================================================================
+function AuditEditor({ value, isRetrofit, onSave, onClose }) {
+  const [v, setV] = useState(value);
+  const STANDARD_FIELDS = ['agent_id', 'session_id', 'timestamp', 'input_payload', 'output_payload', 'tool_calls', 'confidence_score', 'oversight_trigger_fired', 'human_actor', 'human_decision', 'boundary_check_result', 'classification_at_decision'];
+  const canSave = v.fields.length >= 1;
+
+  return (
+    <EditorShell marker="P-05" edition="Edition 5 — Audit Trails That Survive Scrutiny" title="Audit Schema"
+      subtitle="Reconstructed narratives lose in audit. A structured receipt — predefined fields, written at the time of the decision — wins."
+      onSave={() => onSave(v)} onClose={onClose} saveDisabled={!canSave}>
+      <div className="flex items-baseline gap-2 mb-4"><h3 className="display text-2xl">Handoff Receipt fields</h3><ObligationTag>ART. 12 · ART. 26(6)</ObligationTag></div>
+      <p className="text-sm text-[var(--muted)] italic mb-6">Select the structured fields a single decision receipt will carry. Article 26(6) requires deployers to retain logs for at least six months.{isRetrofit && ' For each selected field, mark whether it is currently captured in production.'}</p>
+
+      <div className="grid md:grid-cols-2 gap-2 mb-8">
+        {STANDARD_FIELDS.map(f => {
+          const selected = v.fields.includes(f);
+          return (
+            <div key={f}>
+              <div className={`checkitem ${selected ? 'checked' : ''}`}
+                onClick={() => {
+                  const next = selected ? v.fields.filter(x => x !== f) : [...v.fields, f];
+                  setV({...v, fields: next});
+                }}>
+                <span className="mono text-xs mt-0.5" style={{color: selected ? 'var(--accent)' : 'var(--muted)'}}>{selected ? '■' : '□'}</span>
+                <span className="mono text-xs flex-1">{f}</span>
+              </div>
+              {isRetrofit && selected && (
+                <div className="mt-1 ml-4 flex items-center gap-2">
+                  <span className="text-[9px] mono uppercase text-[var(--muted)]">Logged today?</span>
+                  <StatusSelector value={v.fieldStatus[f] || ''} onChange={s => setV({...v, fieldStatus: {...v.fieldStatus, [f]: s}})} compact />
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-6">
+        <Field label="Retention period" hint="Minimum 6 months under Art. 26(6). Adjust upward for sector-specific requirements (FS: typically 5–7 years).">
+          <div className="flex items-center gap-3">
+            <input className="field-input flex-1" type="number" min={6} value={v.retentionMonths} onChange={e => setV({...v, retentionMonths: parseInt(e.target.value) || 6})} />
+            <span className="text-sm text-[var(--muted)]">months</span>
+          </div>
+        </Field>
+        <Field label="Receipt structure / format">
+          <input className="field-input" placeholder="e.g. JSON Lines, structured DB row, signed JSON" value={v.receiptStructure} onChange={e => setV({...v, receiptStructure: e.target.value})} />
+        </Field>
+      </div>
+    </EditorShell>
+  );
+}
+
+// ============================================================================
+// SEQUENCE GENERATOR
+// ============================================================================
+function generateSequence({ agent, maturity, boundary, oversight, suspension, accountability, audit, isRetrofit }) {
+  const horizon = parseInt(agent.horizon);
+  const weak = maturity?.weakest || [];
+
+  if (isRetrofit) {
+    // Retrofit: prioritized gap-closure
+    const days = horizon;
+    const p1End = Math.round(days * 0.25);
+    const p2End = Math.round(days * 0.60);
+    const p3End = days;
+
+    // Surface retrofit-specific findings
+    const missingOwners = ['decision','oversight','technical','compliance'].filter(r => accountability[r].status === 'missing');
+    const missingBoundary = [...(boundary.allowed||[]), ...(boundary.prohibited||[]), ...(boundary.conditional||[])].filter(b => b.status === 'missing').length;
+    const missingOversight = oversight.filter(o => o.status === 'missing').length;
+    const missingAudit = (audit.fields || []).filter(f => (audit.fieldStatus?.[f] === 'missing')).length;
+
+    return [
+      { unit: `Days 1–${p1End}`, title: 'P1 · Immediate exposure closure', items: [
+        agent.highRiskFlag === 'yes' ? `High-risk system: accelerate all P1 items — Aug 2026 enforcement risk is concrete` : `Risk class: ${agent.highRiskFlag === 'unclear' ? 'resolve classification first' : 'standard remediation pace'}`,
+        missingOwners.length ? `⚠ ${missingOwners.length} accountability role${missingOwners.length>1?'s':''} undocumented — name owners this week (Art. 26(2))` : 'All four owners are documented',
+        missingOversight ? `⚠ ${missingOversight} oversight rows marked Missing — establish minimum oversight on high-risk actions` : 'Oversight coverage in place',
+        agent.highRiskFlag === 'unclear' ? '⚠ Classification rationale unresolved — write the note this period or pause deployment' : 'Classification rationale stands',
+      ]},
+      { unit: `Days ${p1End+1}–${p2End}`, title: 'P2 · Structural remediation', items: [
+        missingBoundary ? `${missingBoundary} boundary items not enforced in production — code/config remediation` : 'Boundary contract matches production',
+        missingAudit ? `${missingAudit} audit fields not logged — instrument and backfill where possible` : 'Audit coverage matches schema',
+        weak.includes('Decision Boundary Contract') ? '⚠ Boundary clarity flagged in maturity check — schedule review' : 'Re-test boundary against current deployment',
+        weak.includes('Oversight Trigger Matrix') ? '⚠ Oversight maturity weak — calibrate triggers against incident history' : 'Replay 30 days of decisions through new oversight rules',
+        `Retention configured to ${audit.retentionMonths} months${agent.highRiskFlag === 'yes' && audit.retentionMonths < 60 ? ' — verify FS minimum (5–7 yrs)' : ''}`,
+      ]},
+      { unit: `Days ${p2End+1}–${p3End}`, title: 'P3 · Documentation & closure', items: [
+        'All four owners sign the Accountability Canvas as currently configured',
+        'Profile filed with internal AI Register with retrofit date stamped',
+        'Quarterly review cadence agreed for ongoing drift',
+        agent.highRiskFlag === 'yes' ? 'Annex IV documentation pack assembled for conformity assessment file' : 'Internal documentation pack filed',
+        'Go / continue / pause decision recorded with Compliance Owner signature',
+      ]},
+    ];
+  }
+
+  // Greenfield (pre / inflight): six phases scaled to horizon
+  const phaseShare = [0.15, 0.20, 0.20, 0.15, 0.15, 0.15]; // sums to 1
+  const cum = phaseShare.reduce((acc, s, i) => [...acc, (acc[i-1] || 0) + s], []);
+  const weekMark = i => Math.max(1, Math.round(cum[i] * horizon));
+  const weekStart = i => i === 0 ? 1 : weekMark(i-1) + 1;
+
+  const phases = [
+    { title: 'Foundation', items: [
+      `Agent definition stamped: ${agent.name}`,
+      `Written classification rationale finalised (current: ${agent.highRiskFlag})`,
+      weak.includes('Agent Definition') ? '⚠ Re-examine intended purpose — flagged weak in maturity check' : 'Stakeholder review of Annex III mapping',
+    ]},
+    { title: 'Boundary Contract', items: [
+      `Boundary Contract reviewed by Technical Owner${accountability.technical.name ? ` (${accountability.technical.name})` : ''}`,
+      `${boundary.allowed.length} allowed, ${boundary.prohibited.length} prohibited, ${boundary.conditional.length} conditional actions ratified`,
+      'Machine-readable schema generated from contract',
+      weak.includes('Decision Boundary Contract') ? '⚠ Boundary clarity flagged — full review session before sign-off' : 'Edge cases stress-tested with sample inputs',
+    ]},
+    { title: 'Oversight Trigger Matrix', items: [
+      `${oversight.length} oversight rows wired to monitoring`,
+      'Escalation routes tested end-to-end',
+      weak.includes('Oversight Trigger Matrix') ? '⚠ Oversight maturity weak — recommend tabletop exercise' : 'Oversight Owner trained on Trigger Matrix',
+    ]},
+    { title: 'Accountability Sign-off', items: [
+      `Decision Owner: ${accountability.decision.name || '⚠ MISSING'}`,
+      `Oversight Owner: ${accountability.oversight.name || '⚠ MISSING'}`,
+      `Technical Owner: ${accountability.technical.name || '⚠ MISSING'}`,
+      `Compliance Owner: ${accountability.compliance.name || '⚠ MISSING'}`,
+      'Accountability Canvas signed off — copy filed with governance record',
+    ]},
+    { title: 'Audit Schema Live', items: [
+      `${audit.fields.length} receipt fields instrumented`,
+      `Retention configured: ${audit.retentionMonths} months`,
+      weak.includes('Audit Schema') ? '⚠ Audit maturity weak — verify log queryability' : 'Sample receipts validated against incident-reconstruction test',
+      'Receipts queryable by Compliance Owner without engineering support',
+    ]},
+    { title: 'Pre-Deployment Sign-off', items: [
+      'End-to-end dry run with all four owners present',
+      'Pre-Deployment Governance Checklist signed (Edition 1)',
+      'Profile filed with internal AI Register',
+      'Go / no-go decision recorded with date and owner signatures',
+    ]},
+  ];
+
+  // For very short horizons (≤4 weeks), compress to 3 phases
+  if (horizon <= 4) {
+    return [
+      { unit: `Week 1`, title: 'Foundation & contract', items: [...phases[0].items, ...phases[1].items] },
+      { unit: `Week ${Math.max(2, Math.round(horizon/2))}`, title: 'Oversight & accountability', items: [...phases[2].items, ...phases[3].items] },
+      { unit: `Week ${horizon}`, title: 'Audit & sign-off', items: [...phases[4].items, ...phases[5].items] },
+    ];
+  }
+
+  return phases.map((p, i) => ({
+    unit: weekStart(i) === weekMark(i) ? `Week ${weekStart(i)}` : `Weeks ${weekStart(i)}–${weekMark(i)}`,
+    title: p.title,
+    items: p.items,
+  }));
+}
+
+// ============================================================================
+// GAPS COMPUTATION
+// ============================================================================
+function computeGaps({ agent, maturity, boundary, oversight, suspension, accountability, audit, isRetrofit, deployerControlsInput, affectsNaturalPersons, workplaceDeployment }) {
+  const g = [];
+
+  // Universal gaps (apply in all modes)
+  if (!agent.purposeDetail) g.push({ severity: 'P3', area: 'Definition', obligation: 'Annex IV §1', description: 'Intended purpose (long form) not recorded', status: 'Documentation', owner: 'Compliance', targetDays: 14 });
+  if (!agent.systems) g.push({ severity: 'P3', area: 'Definition', obligation: 'Annex IV §1(b)', description: 'Systems and data touched not specified', status: 'Documentation', owner: 'Technical', targetDays: 14 });
+  if (agent.highRiskFlag === 'unclear') g.push({ severity: 'P1', area: 'Definition', obligation: 'Art. 6 · Annex III', description: 'Annex III classification marked unclear — must be resolved before deployment', status: 'Missing', owner: 'Compliance', targetDays: 7 });
+  if (boundary.conditional.length === 0) g.push({ severity: 'P4', area: 'Boundary', obligation: 'Art. 26(1)', description: 'No conditional actions defined — verify intentional', status: 'Documentation', owner: 'Technical', targetDays: 30 });
+  if (audit.fields.length < 5) g.push({ severity: 'P3', area: 'Audit', obligation: 'Art. 12 · Art. 26(6)', description: `Only ${audit.fields.length} audit fields selected — verify sufficient for incident reconstruction`, status: 'Partial', owner: 'Technical', targetDays: 30 });
+  if (audit.retentionMonths < 6) g.push({ severity: 'P1', area: 'Audit', obligation: 'Art. 26(6)', description: `Retention set to ${audit.retentionMonths} months — below the 6-month AI Act minimum`, status: 'Missing', owner: 'Compliance', targetDays: 7 });
+  if (agent.sector === 'financial_services' && audit.retentionMonths < 60) g.push({ severity: 'P2', area: 'Audit', obligation: 'Art. 26(6)', description: `Retention set to ${audit.retentionMonths} months — financial services deployments typically require 60–84 months`, status: 'Partial', owner: 'Compliance', targetDays: 21 });
+  if (!maturity) g.push({ severity: 'P4', area: 'Definition', obligation: '—', description: 'Maturity triage not completed', status: 'Documentation', owner: 'Compliance', targetDays: 30 });
+  if (!suspension.authority) g.push({ severity: 'P1', area: 'Suspension', obligation: 'Art. 26(5)', description: 'Suspension authority not named — deployer must designate who can suspend and on what trigger', status: 'Missing', owner: 'Compliance', targetDays: 7 });
+  if (!suspension.trigger) g.push({ severity: 'P2', area: 'Suspension', obligation: 'Art. 26(5)', description: 'Suspension trigger conditions not defined', status: 'Documentation', owner: 'Compliance', targetDays: 14 });
+  if (!suspension.notificationChain) g.push({ severity: 'P2', area: 'Suspension', obligation: 'Art. 26(5)', description: 'Notification chain on suspension not specified', status: 'Documentation', owner: 'Compliance', targetDays: 14 });
+  if (agent.highRiskFlag === 'yes') g.push({ severity: 'P3', area: 'Definition', obligation: 'Art. 26(9)', description: 'FRIA/DPIA required for high-risk classification — document or initiate assessment', status: 'Documentation', owner: 'Compliance', targetDays: 21 });
+  if (deployerControlsInput) g.push({ severity: 'P3', area: 'Audit', obligation: 'Art. 26(4)', description: 'Input data representativeness not yet documented — required where deployer controls input selection', status: 'Documentation', owner: 'Technical', targetDays: 21 });
+  if (affectsNaturalPersons) g.push({ severity: 'P2', area: 'Definition', obligation: 'Art. 26(11)', description: 'Affected-persons notice mechanism not confirmed in place — must be established before go-live', status: 'Missing', owner: 'Compliance', targetDays: 14 });
+  if (workplaceDeployment) g.push({ severity: 'P2', area: 'Definition', obligation: 'Art. 26(7)', description: 'Workplace notice to workers not confirmed — notice must be given before putting the system into service', status: 'Missing', owner: 'Compliance', targetDays: 14 });
+
+  if (isRetrofit) {
+    // Boundary items
+    [...(boundary.allowed||[]), ...(boundary.prohibited||[])].forEach(b => {
+      if (b.status === 'missing') g.push({ severity: 'P2', area: 'Boundary', obligation: 'Art. 26(1)', description: `Boundary not enforced in production: "${b.text}"`, status: 'Missing', owner: 'Technical', targetDays: 30 });
+      else if (b.status === 'partial') g.push({ severity: 'P3', area: 'Boundary', obligation: 'Art. 26(1)', description: `Partial boundary enforcement: "${b.text}"`, status: 'Partial', owner: 'Technical', targetDays: 45 });
+    });
+    (boundary.conditional||[]).forEach(c => {
+      if (c.status === 'missing') g.push({ severity: 'P2', area: 'Boundary', obligation: 'Art. 26(1)', description: `Conditional not enforced: "${c.action}"`, status: 'Missing', owner: 'Technical', targetDays: 30 });
+    });
+    // Oversight rows
+    oversight.forEach(o => {
+      if (o.status === 'missing') g.push({ severity: 'P1', area: 'Oversight', obligation: 'Art. 14 · Art. 26(2)', description: `No oversight on action: "${o.action}"`, status: 'Missing', owner: 'Oversight', targetDays: 7 });
+      else if (o.status === 'partial') g.push({ severity: 'P2', area: 'Oversight', obligation: 'Art. 14 · Art. 26(2)', description: `Partial oversight on action: "${o.action}"`, status: 'Partial', owner: 'Oversight', targetDays: 21 });
+    });
+    // Accountability
+    [['decision','Decision'],['oversight','Oversight'],['technical','Technical'],['compliance','Compliance']].forEach(([k, lbl]) => {
+      const r = accountability[k];
+      if (r.status === 'missing') g.push({ severity: 'P1', area: 'Accountability', obligation: 'Art. 26(2)', description: `${lbl} Owner not documented (${r.name})`, status: 'Missing', owner: lbl, targetDays: 7 });
+      else if (r.status === 'partial') g.push({ severity: 'P3', area: 'Accountability', obligation: 'Art. 26(2)', description: `${lbl} Owner role only partially documented (${r.name})`, status: 'Partial', owner: lbl, targetDays: 21 });
+    });
+    // Suspension
+    if (suspension.status === 'missing') g.push({ severity: 'P1', area: 'Suspension', obligation: 'Art. 26(5)', description: 'Suspension authority not documented in production', status: 'Missing', owner: 'Compliance', targetDays: 7 });
+    else if (suspension.status === 'partial') g.push({ severity: 'P2', area: 'Suspension', obligation: 'Art. 26(5)', description: 'Suspension authority only partially documented', status: 'Partial', owner: 'Compliance', targetDays: 21 });
+    // Audit fields
+    (audit.fields || []).forEach(f => {
+      const s = audit.fieldStatus?.[f];
+      if (s === 'missing') g.push({ severity: 'P2', area: 'Audit', obligation: 'Art. 12 · Art. 26(6)', description: `Audit field not logged in production: "${f}"`, status: 'Missing', owner: 'Technical', targetDays: 30 });
+      else if (s === 'partial') g.push({ severity: 'P3', area: 'Audit', obligation: 'Art. 12 · Art. 26(6)', description: `Audit field partially logged: "${f}"`, status: 'Partial', owner: 'Technical', targetDays: 45 });
+    });
+  }
+
+  // Sort by severity
+  const sev = { P1: 1, P2: 2, P3: 3, P4: 4 };
+  return g.sort((a, b) => sev[a.severity] - sev[b.severity]);
+}
+
+// ============================================================================
+// CSV EXPORT
+// ============================================================================
+function downloadGapRegister(agent, gaps) {
+  if (!gaps.length) return;
+  const rows = gaps.map((g, i) => ({
+    gap_id: `GAP-${String(i+1).padStart(3, '0')}`,
+    severity: g.severity,
+    area: g.area,
+    obligation: g.obligation,
+    description: g.description,
+    status: g.status,
+    suggested_owner: g.owner,
+    target_close_days: g.targetDays,
+  }));
+  const headers = Object.keys(rows[0]).join(',');
+  const csv = headers + '\n' + rows.map(r =>
+    Object.values(r).map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')
+  ).join('\n');
+
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${(agent.name || 'agent').toLowerCase().replace(/[^a-z0-9]+/g, '-')}-gap-register.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// ============================================================================
+// PROFILE VIEW
+// ============================================================================
+function ProfileView({ agent, maturity, boundary, oversight, suspension, accountability, audit, isRetrofit, deployerControlsInput, affectsNaturalPersons, workplaceDeployment, onBack }) {
+  const gaps = useMemo(() => computeGaps({ agent, maturity, boundary, oversight, suspension, accountability, audit, isRetrofit, deployerControlsInput, affectsNaturalPersons, workplaceDeployment }), [agent, maturity, boundary, oversight, suspension, accountability, audit, isRetrofit, deployerControlsInput, affectsNaturalPersons, workplaceDeployment]);
+  const sequence = useMemo(() => generateSequence({ agent, maturity, boundary, oversight, suspension, accountability, audit, isRetrofit }), [agent, maturity, boundary, oversight, suspension, accountability, audit, isRetrofit]);
+
+  const horizonLabel = (isRetrofit ? HORIZON_OPTIONS_RETROFIT : HORIZON_OPTIONS_PRE).find(h => h.id === agent.horizon)?.label;
+
+  return (
+    <div className="min-h-screen p-6 md:p-10 fade-in">
+      <div className="max-w-3xl mx-auto">
+        <div className="flex justify-between items-center mb-8 no-print flex-wrap gap-2">
+          <button onClick={onBack} className="btn-ghost">← Back to dashboard</button>
+          {(() => {
+          const missingOwner = isRetrofit && Object.values(accountability).some(r => !r.name);
+          return (
+            <div className="flex flex-col items-end gap-2">
+              {missingOwner && (
+                <p className="text-[10px] mono tracking-widest text-right" style={{color: 'var(--gap)'}}>
+                  EXPORT BLOCKED · COMPLETE ALL FOUR OWNERS FIRST
+                </p>
+              )}
+              <div className="flex gap-3">
+                <button onClick={() => downloadGapRegister(agent, gaps)} disabled={!gaps.length || missingOwner} className="btn-ghost">Export Gap Register (CSV) ↓</button>
+                <button onClick={() => window.print()} disabled={missingOwner} className="btn-primary">Export Profile (PDF) ↓</button>
+              </div>
+            </div>
+          );
+        })()}
+        </div>
+
+        <article className="paper-edge p-10 md:p-14">
+          <div className="mb-10">
+            <div className="flex items-baseline justify-between mb-6 flex-wrap gap-2">
+              <div className="mono text-xs tracking-widest text-[var(--muted)]">{isRetrofit ? 'AGENTIC REMEDIATION PROFILE' : 'AGENTIC GOVERNANCE PROFILE'}</div>
+              <div className="mono text-xs tracking-widest text-[var(--muted)]">v1.2 · DEPLOYER · EU AI ACT</div>
+            </div>
+            <h1 className="doc-h1 mb-4">{agent.name}</h1>
+            <p className="text-[var(--muted)] leading-relaxed max-w-2xl">{agent.purpose}</p>
+            <div className="rule-ink mt-8"></div>
+            <div className="flex justify-between mt-2 text-[10px] mono text-[var(--muted)] tracking-widest">
+              <span>{DEPLOYMENT_MODES.find(m => m.id === agent.deploymentStatus)?.label.toUpperCase()} · {horizonLabel?.toUpperCase()}</span>
+              <span>GENERATED {new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }).toUpperCase()}</span>
+            </div>
+          </div>
+
+          <div className="paper-edge p-4 mb-10" style={{background: isRetrofit ? 'var(--gap-soft)' : 'var(--accent-soft)', borderColor: isRetrofit ? 'var(--gap)' : 'var(--accent)'}}>
+            <div className="mono text-[10px] tracking-widest mb-1" style={{color: isRetrofit ? 'var(--gap)' : 'var(--accent)'}}>
+              {isRetrofit ? 'REMEDIATION DRAFT — DOCUMENTS A SYSTEM ALREADY IN PRODUCTION' : 'WORKING DRAFT — NOT A REGULATORY FILING'}
+            </div>
+            <p className="text-sm leading-relaxed">
+              {isRetrofit
+                ? 'This profile documents an agent already deployed. Items marked Missing or Partial in production form the Gap Register and must be remediated within the horizon below.'
+                : 'This profile is a structured draft produced by you using the Governed by Design framework. It must be reviewed and signed by the Compliance Owner before serving as evidence under Article 26.'}
+            </p>
+          </div>
+
+          {agent.highRiskFlag === 'unclear' && (
+            <div className="paper-edge p-4 mb-10 no-print" style={{background: 'var(--gap-soft)', borderColor: 'var(--gap)'}}>
+              <div className="mono text-[10px] tracking-widest mb-1" style={{color: 'var(--gap)'}}>CLASSIFICATION UNRESOLVED — DO NOT SHARE EXTERNALLY</div>
+              <p className="text-sm leading-relaxed">Annex III classification is marked unclear. This profile must not be shared externally or filed as a compliance record until the written classification rationale is confirmed and entered in §1.</p>
+            </div>
+          )}
+
+          {maturity && (
+            <section className="mb-12">
+              <div className="doc-h3 mb-3">§0 · Maturity Position</div>
+              <div className="flex items-baseline gap-3 mb-3 flex-wrap">
+                <h2 className="doc-h2">
+                  {maturity.score === 'green' && 'Structurally ready.'}
+                  {maturity.score === 'yellow' && 'Partial readiness.'}
+                  {maturity.score === 'red' && 'Significant structural gap.'}
+                </h2>
+                <Pill tone={maturity.score === 'green' ? 'complete' : maturity.score === 'red' ? 'gap' : 'accent'}>{maturity.score.toUpperCase()}</Pill>
+              </div>
+              <p className="text-sm text-[var(--muted)] mb-2">Weakest primitives:</p>
+              <ul className="text-sm space-y-0.5">{maturity.weakest.map(p => <li key={p}>· {p}</li>)}</ul>
+            </section>
+          )}
+
+          <div className="rule mb-12"></div>
+
+          {/* §1 Agent Definition */}
+          <section className="mb-12">
+            <div className="doc-h3 mb-3">§1 · Agent Definition</div>
+            <h2 className="doc-h2 mb-4">Identity, scope, and classification</h2>
+            <ObligationTag>ART. 26(1) — USE PER INSTRUCTIONS</ObligationTag><ObligationTag>ANNEX IV §1</ObligationTag>
+            <dl className="mt-6 space-y-4 text-sm">
+              <DefRow term="Function" desc={agent.purpose} />
+              {agent.purposeDetail && <DefRow term="Intended purpose" desc={agent.purposeDetail} />}
+              <DefRow term="Annex III domains" desc={agent.domain.length ? agent.domain.map(d => ANNEX_III.find(c => c.id === d)?.label).join(' · ') : 'None selected'} />
+              <DefRow term="Classification" desc={agent.highRiskFlag === 'yes' ? 'High-risk AI system' : agent.highRiskFlag === 'no' ? 'Not high-risk' : 'Unclear — pending review'} />
+              {agent.systems && <DefRow term="Systems & data touched" desc={agent.systems} />}
+              <DefRow term="Autonomy level" desc={AUTONOMY_LEVELS.find(a => a.id === agent.autonomy)?.label || '—'} />
+              <DefRow term="Deployment status" desc={`${DEPLOYMENT_MODES.find(m => m.id === agent.deploymentStatus)?.label} · ${horizonLabel}`} />
+              <DefRow term="Sector" desc={agent.sector ? {financial_services:'Financial Services',healthcare:'Healthcare',public_sector:'Public Sector',employment_hr:'Employment / HR',other:'Other'}[agent.sector] : '—'} />
+              <DefRow term="Role" desc="Deployer (EU AI Act, Article 26)" />
+            </dl>
+          </section>
+
+          <div className="rule mb-12"></div>
+
+          {/* Coverage Map */}
+          <section className="mb-12">
+            <div className="doc-h3 mb-3">Article 26 Coverage Map</div>
+            <h2 className="doc-h2 mb-4">How this profile maps to EU AI Act deployer obligations</h2>
+            <p className="text-sm text-[var(--muted)] italic mb-6 leading-relaxed">
+              Article 26 applies from 2 August 2026. The Omnibus agreement (May 2026) extended Annex III classification deadlines — it did not move Article 26’s start date.
+            </p>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="text-left mono text-[10px] tracking-widest text-[var(--muted)]">
+                    <th className="pb-2 pr-6 font-normal">ARTICLE 26 OBLIGATION</th>
+                    <th className="pb-2 pr-6 font-normal">ADDRESSED BY</th>
+                    <th className="pb-2 font-normal">COVERAGE</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    ['(1) Use per provider instructions', 'Decision Boundary Contract', 'covered', 'Covered'],
+                    ['(2) Human oversight', 'Oversight Trigger Matrix + Accountability Canvas', 'covered', 'Covered'],
+                    ['(4) Input data relevance', 'Input Data Governance', 'conditional', 'Conditional — where deployer controls input'],
+                    ['(5) Monitoring, suspension, incident reporting', 'Suspension Authority Ledger', 'covered', 'Covered'],
+                    ['(6) Log retention ≥6 months', 'Audit Schema (sector-aware)', 'covered', 'Covered'],
+                    ['(7) Workplace notice', 'Workplace Transparency', 'conditional', 'Conditional — workplace deployments'],
+                    ['(8) EU-database registration', '—', 'oos', 'Out of scope — public-authority deployers only'],
+                    ['(9) DPIA support', 'FRIA/DPIA pointer', 'ref', 'Reference'],
+                    ['(10) Law-enforcement biometric ID', '—', 'oos', 'Out of scope — specialised regime'],
+                    ['(11) Notice to affected persons', 'Affected-Persons Transparency', 'conditional', 'Conditional — Annex III decisions about people'],
+                    ['(12) Cooperation with authorities', 'The profile artifact itself', 'covered', 'Covered'],
+                  ].map(([art, by, tone, label], i) => (
+                    <tr key={i} className="border-t border-[var(--border)]">
+                      <td className="py-2 pr-6 align-top font-medium">{art}</td>
+                      <td className="py-2 pr-6 align-top text-[var(--muted)]">{by}</td>
+                      <td className="py-2 align-top">
+                        <Pill tone={tone === 'covered' ? 'complete' : tone === 'conditional' ? 'accent' : tone === 'ref' ? 'ink' : 'muted'}>{label}</Pill>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <div className="rule mb-12"></div>
+          {/* §2 Boundary */}
+          <section className="mb-12">
+            <div className="doc-h3 mb-3">§2 · Decision Boundary Contract</div>
+            <h2 className="doc-h2 mb-4">What the agent may do</h2>
+            <ObligationTag>ART. 26(1) — USE PER INSTRUCTIONS</ObligationTag>
+            <div className="mt-6 space-y-6 text-sm">
+              <BoundaryList title="ALLOWED" items={boundary.allowed} showStatus={isRetrofit} />
+              <BoundaryList title="PROHIBITED" items={boundary.prohibited} showStatus={isRetrofit} />
+              {boundary.conditional.length > 0 && (
+                <div>
+                  <div className="mono text-xs text-[var(--muted)] mb-2 tracking-wider">CONDITIONAL</div>
+                  <div className="space-y-2">
+                    {boundary.conditional.map((c, i) => (
+                      <div key={i} className="paper-edge p-3">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex-1">
+                            <div className="font-medium">{c.action}</div>
+                            <div className="text-xs text-[var(--muted)] mt-1"><em>When:</em> {c.trigger}</div>
+                          </div>
+                          {isRetrofit && c.status && <StatusPill status={c.status} />}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </section>
+
+          <div className="rule mb-12"></div>
+
+          {/* §3 Oversight */}
+          <section className="mb-12">
+            <div className="doc-h3 mb-3">§3 · Oversight Trigger Matrix</div>
+            <h2 className="doc-h2 mb-4">Where a human enters</h2>
+            <ObligationTag>ART. 14 — HUMAN OVERSIGHT</ObligationTag><ObligationTag>ART. 26(2)</ObligationTag>
+            <div className="mt-6 overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="text-left mono text-[10px] tracking-widest text-[var(--muted)]">
+                    <th className="pb-2 pr-4 font-normal">#</th>
+                    <th className="pb-2 pr-4 font-normal">ACTION</th>
+                    <th className="pb-2 pr-4 font-normal">LEVEL</th>
+                    <th className="pb-2 pr-4 font-normal">TRIGGER</th>
+                    {isRetrofit && <th className="pb-2 font-normal">STATUS</th>}
+                  </tr>
+                </thead>
+                <tbody>
+                  {oversight.map((r, i) => (
+                    <tr key={i} className="border-t border-[var(--border)]">
+                      <td className="py-3 pr-4 mono text-xs text-[var(--muted)] align-top">{String(i+1).padStart(2,'0')}</td>
+                      <td className="py-3 pr-4 align-top">{r.action}</td>
+                      <td className="py-3 pr-4 align-top mono text-xs uppercase">{r.level}</td>
+                      <td className="py-3 pr-4 align-top text-[var(--muted)] italic">{r.trigger || '—'}</td>
+                      {isRetrofit && <td className="py-3 align-top"><StatusPill status={r.status} /></td>}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <div className="rule mb-12"></div>
+
+          {/* §4 Suspension Authority Ledger */}
+          <section className="mb-12">
+            <div className="doc-h3 mb-3">§4 · Suspension Authority Ledger</div>
+            <h2 className="doc-h2 mb-4">Who can suspend this agent</h2>
+            <ObligationTag>ART. 26(5) — SUSPENSION DUTY</ObligationTag>
+            <dl className="mt-6 space-y-4 text-sm">
+              <DefRow term="Suspension authority" desc={suspension.authority || '⚠ NOT NAMED'} />
+              {suspension.trigger && <DefRow term="Trigger conditions" desc={suspension.trigger} />}
+              {suspension.notificationChain && <DefRow term="Notification chain" desc={suspension.notificationChain} />}
+              {isRetrofit && suspension.status && <DefRow term="Status" desc={<StatusPill status={suspension.status} />} />}
+            </dl>
+          </section>
+
+          <div className="rule mb-12"></div>
+
+          {/* §5 Accountability */}
+          <section className="mb-12">
+            <div className="doc-h3 mb-3">§5 · Accountability Canvas</div>
+            <h2 className="doc-h2 mb-4">Four named owners</h2>
+            <ObligationTag>ART. 26(2) — HUMAN OVERSIGHT ASSIGNMENT</ObligationTag>
+            <div className="grid grid-cols-2 gap-x-8 gap-y-6 mt-6 text-sm">
+              {[['Decision Owner', accountability.decision], ['Oversight Owner', accountability.oversight], ['Technical Owner', accountability.technical], ['Compliance Owner', accountability.compliance]].map(([label, o]) => (
+                <div key={label}>
+                  <div className="flex items-baseline justify-between mb-1">
+                    <div className="mono text-[10px] text-[var(--muted)] tracking-widest">{label.toUpperCase()}</div>
+                    {isRetrofit && <StatusPill status={o.status} />}
+                  </div>
+                  <div className="font-medium">{o.name || '⚠ MISSING'}</div>
+                  <div className="text-[var(--muted)] text-xs">{o.title || '—'}</div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <div className="rule mb-12"></div>
+
+          {/* §6 Audit */}
+          <section className="mb-12">
+            <div className="doc-h3 mb-3">§6 · Audit Schema</div>
+            <h2 className="doc-h2 mb-4">Handoff Receipt structure</h2>
+            <ObligationTag>ART. 12 — RECORD-KEEPING</ObligationTag><ObligationTag>ART. 26(6) — LOG RETENTION</ObligationTag>
+            <div className="mt-6 text-sm space-y-4">
+              <div>
+                <div className="mono text-xs text-[var(--muted)] tracking-wider mb-2">RECEIPT FIELDS ({audit.fields.length})</div>
+                <div className="flex flex-wrap gap-1.5">
+                  {audit.fields.map(f => (
+                    <span key={f} className="mono text-xs px-2 py-1 inline-flex items-center gap-1" style={{background: 'var(--accent-soft)', color: 'var(--accent)'}}>
+                      {f}
+                      {isRetrofit && audit.fieldStatus?.[f] && <StatusPill status={audit.fieldStatus[f]} />}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-6">
+                <div><div className="mono text-xs text-[var(--muted)] tracking-wider mb-1">RETENTION</div><div>{audit.retentionMonths} months</div></div>
+                <div><div className="mono text-xs text-[var(--muted)] tracking-wider mb-1">FORMAT</div><div>{audit.receiptStructure || '—'}</div></div>
+              </div>
+            </div>
+          </section>
+
+          <div className="rule mb-12 print-page-break"></div>
+
+          {/* §7 Sequence */}
+          <section className="mb-12">
+            <div className="doc-h3 mb-3">§7 · {isRetrofit ? 'Remediation Sequence' : 'Implementation Sequence'}</div>
+            <h2 className="doc-h2 mb-4">{isRetrofit ? `${horizonLabel} gap-closure plan` : `${horizonLabel} deployment path`}</h2>
+            <p className="text-sm text-[var(--muted)] italic mb-6 leading-relaxed">
+              {isRetrofit
+                ? 'Prioritized by exposure. P1 items are the most urgent; high-risk classification accelerates all P1 timelines.'
+                : `Auto-assembled from your inputs and maturity diagnostic. Calibrated to a ${horizonLabel} horizon. Adjust week numbering to your own deployment calendar.`}
+            </p>
+            <div className="space-y-6">
+              {sequence.map((phase, idx) => (
+                <div key={idx} className="grid grid-cols-[100px_1fr] gap-4">
+                  <div>
+                    <div className="mono text-xs text-[var(--muted)] tracking-widest">{isRetrofit ? 'WINDOW' : 'TIMING'}</div>
+                    <div className="display text-xl leading-tight">{phase.unit}</div>
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-base mb-2">{phase.title}</h4>
+                    <ul className="text-sm space-y-1.5 text-[var(--muted)]">
+                      {phase.items.map((item, i) => (
+                        <li key={i} className="leading-relaxed"><span className="mono text-xs text-[var(--border-strong)] mr-2">·</span>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <div className="rule mb-12"></div>
+
+          {/* §8 Gaps */}
+          <section className="mb-12">
+            <div className="doc-h3 mb-3">§8 · Gap Register</div>
+            <h2 className="doc-h2 mb-4">{gaps.length} gap{gaps.length === 1 ? '' : 's'} surfaced</h2>
+            <p className="text-sm text-[var(--muted)] italic mb-6 leading-relaxed">
+              Inputs skipped, defaults inferred, items marked missing or partial in production. Export this as CSV for your issue tracker.
+            </p>
+            {gaps.length === 0 ? (
+              <p className="text-sm">No gaps identified.</p>
+            ) : (
+              <div className="space-y-2">
+                {gaps.map((g, i) => (
+                  <div key={i} className="paper-edge p-4">
+                    <div className="flex items-baseline gap-2 mb-1 flex-wrap">
+                      <span className="mono text-[10px] text-[var(--muted)] tracking-widest">GAP-{String(i+1).padStart(3,'0')}</span>
+                      <Pill tone={g.severity === 'P1' ? 'gap' : g.severity === 'P2' ? 'accent' : 'muted'}>{g.severity}</Pill>
+                      <span className="mono text-[10px] text-[var(--muted)]">{g.area.toUpperCase()}</span>
+                      <ObligationTag>{g.obligation}</ObligationTag>
+                      <span className="mono text-[10px] text-[var(--muted)] ml-auto">{g.targetDays}d</span>
+                    </div>
+                    <p className="text-sm leading-relaxed">{g.description}</p>
+                    <p className="text-xs text-[var(--muted)] mt-1 italic">Suggested owner: {g.owner}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
+
+          {/* Input Data Governance — conditional on deployerControlsInput */}
+          {deployerControlsInput && (
+            <section className="mb-12">
+              <div className="doc-h3 mb-3">Input Data Governance</div>
+              <h2 className="doc-h2 mb-4">Data relevance and representativeness</h2>
+              <ObligationTag>ART. 26(4) — INPUT DATA</ObligationTag>
+              <p className="text-sm text-[var(--muted)] italic mt-4 mb-4 leading-relaxed">
+                Where the deployer determines the data used to operate the system, Article 26(4) requires that input data is relevant and sufficiently representative for the intended purpose.
+              </p>
+              <dl className="mt-2 space-y-4 text-sm">
+                <DefRow term="Input data sources" desc={agent.systems || '—'} />
+                <DefRow term="Relevance basis" desc="Deployer controls input selection and query parameters" />
+                <DefRow term="Representativeness" desc="To be verified by Technical Owner before each model update" />
+                <DefRow term="Obligation" desc="Article 26(4) — Input data relevance and representativeness" />
+              </dl>
+            </section>
+          )}
+
+          {/* Affected-Persons Transparency — conditional on affectsNaturalPersons */}
+          {affectsNaturalPersons && (
+            <>
+              <div className="rule mb-12"></div>
+              <section className="mb-12">
+                <div className="doc-h3 mb-3">Affected-Persons Transparency</div>
+                <h2 className="doc-h2 mb-4">Notice to persons subject to decisions</h2>
+                <ObligationTag>ART. 26(11) — NOTICE</ObligationTag>
+                <p className="text-sm text-[var(--muted)] italic mt-4 mb-4 leading-relaxed">
+                  Where an AI system makes or assists in decisions with legal or similarly significant effects on natural persons under Annex III, the deployer must inform those persons that they are subject to an AI-assisted decision.
+                </p>
+                <dl className="mt-2 space-y-4 text-sm">
+                  <DefRow term="Affected persons" desc="Natural persons whose transactions are screened or delayed" />
+                  <DefRow term="Notice mechanism" desc="To be defined by Compliance Owner" />
+                  <DefRow term="Timing" desc="At or before the decision takes effect" />
+                  <DefRow term="Obligation" desc="Article 26(11) — Notice to affected persons" />
+                </dl>
+              </section>
+            </>
+          )}
+
+          <div className="rule mb-12"></div>
+
+          {/* Workplace Transparency — conditional on workplaceDeployment */}
+          {workplaceDeployment && (
+            <>
+              <div className="rule mb-12"></div>
+              <section className="mb-12">
+                <div className="doc-h3 mb-3">Workplace Transparency</div>
+                <h2 className="doc-h2 mb-4">Notice to workers</h2>
+                <ObligationTag>ART. 26(7) — WORKPLACE NOTICE</ObligationTag>
+                <p className="text-sm text-[var(--muted)] italic mt-4 mb-4 leading-relaxed">
+                  Where an AI system is used to monitor, evaluate, or manage workers in the workplace, deployers must inform affected workers and their representatives before putting the system into service, in accordance with applicable labour law.
+                </p>
+                <dl className="mt-2 space-y-4 text-sm">
+                  <DefRow term="Affected worker groups" desc="To be defined by Compliance and HR Owners" />
+                  <DefRow term="Notification timing" desc="Before putting the system into service (mandatory — Art. 26(7))" />
+                  <DefRow term="Notification channel" desc="To be defined — e.g. works council, HR communication, employment contract addendum" />
+                  <DefRow term="Worker-representative reference" desc="Confirm engagement with works council or equivalent under applicable labour law" />
+                  <DefRow term="AI literacy / training" desc="Workers interacting with or overseen by the system must receive appropriate training (Art. 4)" />
+                  <DefRow term="Obligation" desc="Article 26(7) — Workplace notice · Article 4 — AI literacy" />
+                </dl>
+              </section>
+            </>
+          )}
+
+          {/* FRIA/DPIA Reference — always renders */}
+          <section className="mb-12">
+            <div className="doc-h3 mb-3">FRIA / DPIA Reference</div>
+            <h2 className="doc-h2 mb-4">Fundamental rights and data protection</h2>
+            <ObligationTag>ART. 26(9) — DPIA SUPPORT</ObligationTag>
+            <p className="text-sm text-[var(--muted)] italic mt-4 mb-4 leading-relaxed">
+              This profile supports but does not replace a Fundamental Rights Impact Assessment (FRIA) or Data Protection Impact Assessment (DPIA). High-risk AI system deployers must cooperate with providers to conduct or supplement an impact assessment under Article 26(9) and GDPR Article 35 where applicable.
+            </p>
+            <dl className="mt-2 space-y-4 text-sm">
+              <DefRow term="FRIA/DPIA required" desc={agent.highRiskFlag === 'yes' ? 'Yes — high-risk classification' : agent.highRiskFlag === 'no' ? 'Not required — not high-risk' : 'Pending — classification unresolved'} />
+              <DefRow term="Provider cooperation" desc="Request technical documentation and risk assessment from provider under Article 26(9)" />
+              <DefRow term="Record retention" desc="Retain alongside this profile" />
+              <DefRow term="Obligation" desc="Article 26(9) · GDPR Article 35" />
+            </dl>
+          </section>
+
+          <div className="rule mb-12"></div>
+
+          {/* §9 Lineage */}
+          <section className="mb-4">
+            <div className="doc-h3 mb-3">§9 · Replaces vs. Drafts</div>
+            <p className="text-sm leading-relaxed mb-4">
+              This profile <strong>replaces</strong> the deployer's classification rationale note (§1), the boundary documentation (§2), the calibrated oversight protocol (§3), the suspension authority record (§4), and the human oversight assignment record (§5). It <strong>drafts</strong> the audit schema (§6) and {isRetrofit ? 'remediation' : 'implementation'} sequence (§7), which the Technical and Compliance Owners must verify against the deployed system.
+            </p>
+            <p className="text-sm leading-relaxed text-[var(--muted)] italic">
+              Provider-supplied facts (model cards, conformity assessments, technical documentation under Articles 9–15) are <em>not</em> covered by this profile. Deployers rely on this information under Article 26(1) and Article 13, and must retain it separately.
+            </p>
+          </section>
+
+          <div className="rule-ink mt-16 pt-6 flex justify-between items-baseline text-xs text-[var(--muted)]">
+            <span className="mono tracking-widest">GOVERNED BY DESIGN · AISTREAMLINEHUB.COM</span>
+            <span className="mono tracking-widest">AGPB v1.2</span>
+          </div>
+        </article>
+
+        <p className="text-xs text-[var(--muted)] italic mt-6 text-center max-w-xl mx-auto leading-relaxed no-print">
+          To save unlimited agents, version this profile, export the machine-readable JSON, track remediation closure, and use AI-assisted drafting — upgrade to the paid Agent Register. <em>Coming soon.</em>
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================================
+// PROFILE HELPERS
+// ============================================================================
+function DefRow({ term, desc }) {
+  return (
+    <div className="grid grid-cols-[180px_1fr] gap-4 items-baseline">
+      <dt className="mono text-xs text-[var(--muted)] tracking-widest">{term.toUpperCase()}</dt>
+      <dd className="leading-relaxed">{desc}</dd>
+    </div>
+  );
+}
+
+function BoundaryList({ title, items, showStatus }) {
+  return (
+    <div>
+      <div className="mono text-xs text-[var(--muted)] mb-2 tracking-wider">{title} ({items.length})</div>
+      <ul className="space-y-1.5">
+        {items.map((a, i) => (
+          <li key={i} className="flex gap-3 items-center">
+            <span className="mono text-xs text-[var(--border-strong)] mt-0.5">{String(i+1).padStart(2,'0')}</span>
+            <span className="flex-1">{a.text || a}</span>
+            {showStatus && a.status && <StatusPill status={a.status} />}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
