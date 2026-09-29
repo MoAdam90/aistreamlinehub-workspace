@@ -127,7 +127,7 @@
     <p style="color:#444;margin-bottom:32px;">A Governance Profile covering all six primitives, exportable as PDF, and a Gap Register exportable as CSV.</p>
     <h2 style="font-size:1.2rem;font-weight:600;margin-bottom:8px;">How it maps to EU AI Act Article 26</h2>
     <p style="color:#444;margin-bottom:16px;">Article 26 sets out what a deployer of a high-risk AI system is expected to do: use the system per the provider's instructions, assign competent human oversight, monitor operation, retain logs, and inform affected people where required. The Builder maps each of those obligations to a named primitive and gives you a structured place to record how your organisation meets it — including what it does not yet meet.</p>
-    <p style="color:#444;margin-bottom:16px;">The application date for standalone Annex III high-risk systems is 2 December 2027, and 2 August 2028 for systems embedded in regulated products, following the Digital Omnibus on AI (OJ L_202601744, in force 27 July 2026). The obligations did not change. Only the date did.</p>
+    <p style="color:#444;margin-bottom:16px;">Following Regulation (EU) 2026/1744, Chapter III Sections 1–3 apply from 2 December 2027 for Annex III high-risk systems and from 2 August 2028 for Annex I high-risk systems embedded in regulated products. Article 26 sits in Section 3.</p>
     <p style="color:#444;margin-bottom:32px;">This is a documentation aid, not legal advice, and it does not determine your obligations or discharge them. For decisions about your institution, involve counsel.</p>
     <p style="font-size:0.9rem;color:#6B6760;">No account. No payment. No sales follow-up. Built by <a href="https://www.aistreamlinehub.com" style="color:#B8862F;">AI Streamline Hub</a>.</p>
   </div>
@@ -165,7 +165,7 @@ const DEPLOYMENT_MODES = [
 ];
 
 const HORIZON_OPTIONS_PRE = [
-  { id: '2', label: '2 weeks', detail: 'Pre-Aug rush' },
+  { id: '2', label: '2 weeks', detail: 'Near-term rush' },
   { id: '4', label: '4 weeks', detail: 'Compressed' },
   { id: '8', label: '8 weeks', detail: 'Standard' },
   { id: '12', label: '12 weeks', detail: 'Full sequence' },
@@ -262,7 +262,7 @@ function App() {
     compliance: { name: '', title: '', status: '' },
   });
   const [audit, setAudit] = useState({ fields: [], fieldStatus: {}, retentionMonths: 6, receiptStructure: '' });
-  const [suspension, setSuspension] = useState({ authority: '', trigger: '', notificationChain: '', status: '' });
+  const [suspension, setSuspension] = useState({ authority: '', backup: '', reach: '', trigger: '', notificationChain: '', tested: '', status: '' });
   const [deployerControlsInput, setDeployerControlsInput] = useState(false);
   const [affectsNaturalPersons, setAffectsNaturalPersons] = useState(false);
   const [workplaceDeployment, setWorkplaceDeployment] = useState(false);
@@ -277,7 +277,7 @@ function App() {
     suspension: !!suspension.authority,
     accountability: !!(accountability.decision.name && accountability.oversight.name && accountability.technical.name && accountability.compliance.name),
     audit: audit.fields.length >= 1,
-  }), [agent, maturity, boundary, oversight, accountability, audit]);
+  }), [agent, maturity, boundary, oversight, suspension, accountability, audit]);
 
   const requiredComplete = completion.agent && completion.boundary && completion.oversight && completion.suspension && completion.accountability && completion.audit;
   const completedCount = [completion.boundary, completion.oversight, completion.suspension, completion.accountability, completion.audit].filter(Boolean).length;
@@ -319,12 +319,12 @@ function App() {
           <button className="btn-primary" onClick={() => setStage('agentDef')}>Begin →</button>
           <button className="btn-ghost" onClick={() => {
             setAgent({
-              name: 'Sanctions Triage Agent',
-              purpose: 'Screens inbound payments against EU and UK sanctions lists and flags potential matches for compliance review.',
-              purposeDetail: 'Deployed by a payment institution to pre-screen SEPA and SWIFT transactions before processing. The agent reads payment metadata, queries three sanctions databases, and routes flagged transactions to a named compliance reviewer. It does not block payments autonomously — it escalates.',
+              name: 'Creditworthiness Review Agent',
+              purpose: 'Evaluates the creditworthiness of natural-person applicants and produces a recommendation for a named human credit reviewer.',
+              purposeDetail: 'Deployed by a financial institution in a consumer-credit workflow. The agent reads application data, queries an approved credit bureau, produces a creditworthiness assessment, and routes the recommendation to a named human reviewer. It does not autonomously approve or deny credit.',
               domain: ['essential_services'],
-              systems: 'Core payments platform (read)\nSanctions database API — EU/UK lists (read)\nCompliance case queue (write)\nTransaction log (read)',
-              autonomy: 'notify',
+              systems: 'Loan origination platform (read)\nApproved credit bureau API (read)\nCredit review queue (write)\nApplication audit log (read)',
+              autonomy: 'approve',
               highRiskFlag: 'yes',
               deploymentStatus: 'retrofit',
               horizon: '90',
@@ -332,26 +332,26 @@ function App() {
             });
             setBoundary({
               allowed: [
-                { text: 'Read transaction metadata from payments platform', status: 'in_place' },
-                { text: 'Query EU Consolidated Sanctions List', status: 'in_place' },
-                { text: 'Query UK HM Treasury Sanctions List', status: 'in_place' },
-                { text: 'Write flagged transaction to compliance case queue', status: 'partial' },
-                { text: 'Notify named compliance reviewer via internal alert', status: 'in_place' },
+                { text: 'Read applicant data from the loan origination platform', status: 'in_place' },
+                { text: 'Query the approved credit bureau', status: 'in_place' },
+                { text: 'Calculate and record a creditworthiness assessment', status: 'in_place' },
+                { text: 'Write a recommendation to the credit review queue', status: 'partial' },
+                { text: 'Notify the named human credit reviewer', status: 'in_place' },
               ],
               prohibited: [
-                { text: 'Block or reverse a payment autonomously', status: 'in_place' },
-                { text: 'Access customer account balances or history', status: 'in_place' },
-                { text: 'Modify transaction records', status: 'in_place' },
-                { text: 'Communicate with external parties', status: 'in_place' },
+                { text: 'Approve or deny a credit application autonomously', status: 'in_place' },
+                { text: 'Access unrelated customer records', status: 'in_place' },
+                { text: 'Modify source application or bureau data', status: 'in_place' },
+                { text: 'Communicate a credit decision directly to the applicant', status: 'in_place' },
               ],
               conditional: [
-                { action: 'Escalate to Head of Compliance', trigger: 'Match confidence score > 0.9 AND transaction value > €50,000', status: 'missing' },
+                { action: 'Escalate to senior credit reviewer', trigger: 'Assessment falls within the defined manual-review band or required data is incomplete', status: 'missing' },
               ],
             });
             setOversight([
-              { action: 'Write flagged transaction to compliance case queue', level: 'approve', trigger: 'Compliance reviewer must confirm before case is filed', status: 'partial' },
-              { action: 'Escalate to Head of Compliance', level: 'approve', trigger: 'Match confidence > 0.9 AND value > €50,000', status: 'missing' },
-              { action: 'Notify named compliance reviewer via internal alert', level: 'notify', trigger: 'Any sanctions match at any confidence level', status: 'in_place' },
+              { action: 'Issue final credit decision', level: 'approve', trigger: 'Named human credit reviewer must approve or reject before any decision is communicated', status: 'partial' },
+              { action: 'Escalate to senior credit reviewer', level: 'approve', trigger: 'Assessment is within the manual-review band or required data is incomplete', status: 'missing' },
+              { action: 'Notify named human credit reviewer', level: 'notify', trigger: 'A creditworthiness assessment has been produced', status: 'in_place' },
             ]);
             setAccountability({
               decision: { name: 'Sarah Müller', title: 'Head of Financial Crime Compliance', status: 'in_place' },
@@ -360,12 +360,13 @@ function App() {
               compliance: { name: 'Sarah Müller', title: 'Head of Financial Crime Compliance', status: 'in_place' },
             });
             setAudit({
-              fields: ['Transaction ID', 'Agent version', 'Sanctions list queried', 'Match confidence score', 'Escalation trigger condition', 'Reviewing officer ID', 'Decision timestamp', 'Override flag'],
+              fields: ['Application ID', 'Agent version', 'Boundary version', 'Credit bureau queried', 'Assessment outcome', 'Escalation trigger condition', 'Reviewing officer ID', 'Decision timestamp', 'Override flag'],
               fieldStatus: {
-                'Transaction ID': 'in_place',
+                'Application ID': 'in_place',
                 'Agent version': 'missing',
-                'Sanctions list queried': 'in_place',
-                'Match confidence score': 'partial',
+                'Boundary version': 'missing',
+                'Credit bureau queried': 'in_place',
+                'Assessment outcome': 'partial',
                 'Escalation trigger condition': 'missing',
                 'Reviewing officer ID': 'partial',
                 'Decision timestamp': 'in_place',
@@ -374,7 +375,7 @@ function App() {
               retentionMonths: 24,
               receiptStructure: 'JSON event written to immutable audit log at each state transition',
             });
-            setSuspension({ authority: 'Sarah Müller — Head of Financial Crime Compliance', trigger: 'Sanctions false-positive rate exceeds 5% in any 24-hour window\nAny uncontrolled output reaching an external party\nAI provider issues high-severity incident notice', notificationChain: '1. AI provider (within 24h)\n2. Head of Compliance\n3. National market surveillance authority (serious incidents only)', status: 'missing' });
+            setSuspension({ authority: 'Sarah Müller — Head of Credit Risk', backup: 'Thomas Becker — Senior Credit Risk Manager', reach: 'Internal incident channel + on-call phone', trigger: 'Material unexplained disparity in assessment outcomes\nAny autonomous approval/denial attempt\nAI provider issues a high-severity incident notice', notificationChain: '1. Head of Credit Risk\n2. AI platform owner\n3. Provider and competent authority where legally required', tested: 'not_tested', status: 'missing' });
             setDeployerControlsInput(true);
             setAffectsNaturalPersons(true);
             setStage('dashboard');
@@ -676,7 +677,7 @@ function App() {
             <div>
               <div className="marker-num mb-1">PROFILE STATUS</div>
               <div className="text-sm">{completedCount} of 5 required primitives complete.{requiredComplete && <span style={{color: 'var(--complete)'}}> · Ready to generate.</span>}</div>
-              <div className="progress-rail mt-3" style={{maxWidth: '280px'}}><div className="progress-fill" style={{width: `${(completedCount / 4) * 100}%`}}></div></div>
+              <div className="progress-rail mt-3" style={{maxWidth: '280px'}}><div className="progress-fill" style={{width: `${(completedCount / 5) * 100}%`}}></div></div>
             </div>
             <button className="btn-primary" disabled={!requiredComplete} onClick={() => setStage('emailGate')}>
               Generate {isRetrofit ? 'Remediation' : 'Governance'} Profile →
@@ -1045,15 +1046,31 @@ function SuspensionEditor({ value, isRetrofit, onSave, onClose }) {
             </div>
           )}
         </Field>
+        <Field label="Named backup" hint="Who can exercise suspension authority when the primary authority is unavailable?">
+          <input className="field-input" placeholder="e.g. Deputy Head of AI Risk"
+            value={v.backup || ''} onChange={e => setV({...v, backup: e.target.value})} />
+        </Field>
+        <Field label="Reach / contact path" hint="How can the authority holder or backup be reached during an incident?">
+          <input className="field-input" placeholder="e.g. On-call phone, incident channel, pager"
+            value={v.reach || ''} onChange={e => setV({...v, reach: e.target.value})} />
+        </Field>
         <Field label="Trigger conditions" hint="The observable conditions that obligate the authority holder to suspend. Be specific — vague triggers create audit risk.">
           <textarea className="field-input" rows={3}
             placeholder={"e.g.\nSanctions false-positive rate exceeds 5% in any 24-hour window\nAny uncontrolled output reaching an external party\nAI provider issues high-severity incident notice"}
             value={v.trigger} onChange={e => setV({...v, trigger: e.target.value})} />
         </Field>
-        <Field label="Notification chain" hint="Who must be notified on suspension, in what order. Art. 26(5) requires notification to the provider and, for serious incidents, market surveillance authorities.">
+        <Field label="Notification chain" hint="Who must be notified on suspension, in what order. Legal notification duties depend on the facts and applicable regime.">
           <textarea className="field-input" rows={3}
-            placeholder={"e.g.\n1. AI provider (within 24h)\n2. Head of Compliance\n3. National market surveillance authority (serious incidents only)"}
+            placeholder={"e.g.\n1. Internal incident owner\n2. AI provider where relevant\n3. Competent authority where legally required"}
             value={v.notificationChain} onChange={e => setV({...v, notificationChain: e.target.value})} />
+        </Field>
+        <Field label="Tested / rehearsed" hint="A documented ledger is not the same as an exercised stop control.">
+          <select className="field-input" value={v.tested || ''} onChange={e => setV({...v, tested: e.target.value})}>
+            <option value="">Select status</option>
+            <option value="not_tested">Not tested</option>
+            <option value="tabletop">Tabletop rehearsed</option>
+            <option value="technical_test">Technical stop tested</option>
+          </select>
         </Field>
       </div>
     </EditorShell>
@@ -1175,7 +1192,7 @@ function generateSequence({ agent, maturity, boundary, oversight, suspension, ac
 
     return [
       { unit: `Days 1–${p1End}`, title: 'P1 · Immediate exposure closure', items: [
-        agent.highRiskFlag === 'yes' ? `High-risk system: accelerate all P1 items — Aug 2026 enforcement risk is concrete` : `Risk class: ${agent.highRiskFlag === 'unclear' ? 'resolve classification first' : 'standard remediation pace'}`,
+        agent.highRiskFlag === 'yes' ? `High-risk system: accelerate all P1 items — confirm the applicable transition date and deployer obligations for this classification` : `Risk class: ${agent.highRiskFlag === 'unclear' ? 'resolve classification first' : 'standard remediation pace'}`,
         missingOwners.length ? `⚠ ${missingOwners.length} accountability role${missingOwners.length>1?'s':''} undocumented — name owners this week (Art. 26(2))` : 'All four owners are documented',
         missingOversight ? `⚠ ${missingOversight} oversight rows marked Missing — establish minimum oversight on high-risk actions` : 'Oversight coverage in place',
         agent.highRiskFlag === 'unclear' ? '⚠ Classification rationale unresolved — write the note this period or pause deployment' : 'Classification rationale stands',
@@ -1191,7 +1208,7 @@ function generateSequence({ agent, maturity, boundary, oversight, suspension, ac
         'All four owners sign the Accountability Canvas as currently configured',
         'Profile filed with internal AI Register with retrofit date stamped',
         'Quarterly review cadence agreed for ongoing drift',
-        agent.highRiskFlag === 'yes' ? 'Annex IV documentation pack assembled for conformity assessment file' : 'Internal documentation pack filed',
+        agent.highRiskFlag === 'yes' ? 'Provider technical documentation and conformity information collected or referenced as applicable' : 'Internal documentation pack filed',
         'Go / continue / pause decision recorded with Compliance Owner signature',
       ]},
     ];
@@ -1456,7 +1473,7 @@ function ProfileView({ agent, maturity, boundary, oversight, suspension, account
             <div className="doc-h3 mb-3">Article 26 Coverage Map</div>
             <h2 className="doc-h2 mb-4">How this profile maps to EU AI Act deployer obligations</h2>
             <p className="text-sm text-[var(--muted)] italic mb-6 leading-relaxed">
-              Article 26 obligations apply once a system is classified high-risk and deployed. Following the Digital Omnibus on AI (OJ L_202601744, in force 27 July 2026), the application date for standalone Annex III high-risk systems is 2 December 2027, and 2 August 2028 for systems embedded in regulated products. The obligations themselves did not change — only the date.
+              For high-risk systems, the relevant Chapter III Sections 1–3 requirements apply from 2 December 2027 for Annex III systems and from 2 August 2028 for Annex I systems under Regulation (EU) 2026/1744. Article 26 sits in Section 3. Applicability still depends on the system's legal classification and the deployer's role.
             </p>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
@@ -1476,7 +1493,7 @@ function ProfileView({ agent, maturity, boundary, oversight, suspension, account
                     ['(6) Log retention ≥6 months', 'Audit Schema (sector-aware)', 'covered', 'Covered'],
                     ['(7) Workplace notice', 'Workplace Transparency', 'conditional', 'Conditional — workplace deployments'],
                     ['(8) EU-database registration', '—', 'oos', 'Out of scope — public-authority deployers only'],
-                    ['(9) DPIA support', 'FRIA/DPIA pointer', 'ref', 'Reference'],
+                    ['(9) DPIA support', 'DPIA support pointer; FRIA separately assessed under Art. 27', 'ref', 'Reference'],
                     ['(10) Law-enforcement biometric ID', '—', 'oos', 'Out of scope — specialised regime'],
                     ['(11) Notice to affected persons', 'Affected-Persons Transparency', 'conditional', 'Conditional — Annex III decisions about people'],
                     ['(12) Cooperation with authorities', 'The profile artifact itself', 'covered', 'Covered'],
@@ -1566,8 +1583,11 @@ function ProfileView({ agent, maturity, boundary, oversight, suspension, account
             <ObligationTag>ART. 26(5) — SUSPENSION DUTY</ObligationTag>
             <dl className="mt-6 space-y-4 text-sm">
               <DefRow term="Suspension authority" desc={suspension.authority || '⚠ NOT NAMED'} />
+              {suspension.backup && <DefRow term="Named backup" desc={suspension.backup} />}
+              {suspension.reach && <DefRow term="Reach / contact path" desc={suspension.reach} />}
               {suspension.trigger && <DefRow term="Trigger conditions" desc={suspension.trigger} />}
               {suspension.notificationChain && <DefRow term="Notification chain" desc={suspension.notificationChain} />}
+              <DefRow term="Tested / rehearsed" desc={suspension.tested === 'technical_test' ? 'Technical stop tested' : suspension.tested === 'tabletop' ? 'Tabletop rehearsed' : 'Not tested'} />
               {isRetrofit && suspension.status && <DefRow term="Status" desc={<StatusPill status={suspension.status} />} />}
             </dl>
           </section>
@@ -1578,7 +1598,7 @@ function ProfileView({ agent, maturity, boundary, oversight, suspension, account
           <section className="mb-12">
             <div className="doc-h3 mb-3">§5 · Accountability Canvas</div>
             <h2 className="doc-h2 mb-4">Four named owners</h2>
-            <ObligationTag>ART. 26(2) — HUMAN OVERSIGHT ASSIGNMENT</ObligationTag>
+            <ObligationTag>FRAMEWORK ACCOUNTABILITY ROLES · OVERSIGHT OWNER SUPPORTS ART. 26(2)</ObligationTag>
             <div className="grid grid-cols-2 gap-x-8 gap-y-6 mt-6 text-sm">
               {[['Decision Owner', accountability.decision], ['Oversight Owner', accountability.oversight], ['Technical Owner', accountability.technical], ['Compliance Owner', accountability.compliance]].map(([label, o]) => (
                 <div key={label}>
@@ -1737,7 +1757,7 @@ function ProfileView({ agent, maturity, boundary, oversight, suspension, account
                   <DefRow term="Notification timing" desc="Before putting the system into service (mandatory — Art. 26(7))" />
                   <DefRow term="Notification channel" desc="To be defined — e.g. works council, HR communication, employment contract addendum" />
                   <DefRow term="Worker-representative reference" desc="Confirm engagement with works council or equivalent under applicable labour law" />
-                  <DefRow term="AI literacy / training" desc="Workers interacting with or overseen by the system must receive appropriate training (Art. 4)" />
+                  <DefRow term="AI literacy / training" desc="Measures are defined to support AI literacy for staff and other persons operating or using the system on the deployer's behalf (Art. 4)" />
                   <DefRow term="Obligation" desc="Article 26(7) — Workplace notice · Article 4 — AI literacy" />
                 </dl>
               </section>
@@ -1748,15 +1768,15 @@ function ProfileView({ agent, maturity, boundary, oversight, suspension, account
           <section className="mb-12">
             <div className="doc-h3 mb-3">FRIA / DPIA Reference</div>
             <h2 className="doc-h2 mb-4">Fundamental rights and data protection</h2>
-            <ObligationTag>ART. 26(9) — DPIA SUPPORT</ObligationTag>
+            <ObligationTag>ART. 27 — FRIA · ART. 26(9) — DPIA SUPPORT</ObligationTag>
             <p className="text-sm text-[var(--muted)] italic mt-4 mb-4 leading-relaxed">
-              This profile supports but does not replace a Fundamental Rights Impact Assessment (FRIA) or Data Protection Impact Assessment (DPIA). High-risk AI system deployers must cooperate with providers to conduct or supplement an impact assessment under Article 26(9) and GDPR Article 35 where applicable.
+              This profile supports but does not replace a Fundamental Rights Impact Assessment (FRIA) where Article 27 applies, or a Data Protection Impact Assessment (DPIA) under GDPR Article 35 where applicable. High-risk status alone does not make every deployer subject to Article 27. Article 26(9) concerns using provider information to support a GDPR DPIA.
             </p>
             <dl className="mt-2 space-y-4 text-sm">
-              <DefRow term="FRIA/DPIA required" desc={agent.highRiskFlag === 'yes' ? 'Yes — high-risk classification' : agent.highRiskFlag === 'no' ? 'Not required — not high-risk' : 'Pending — classification unresolved'} />
-              <DefRow term="Provider cooperation" desc="Request technical documentation and risk assessment from provider under Article 26(9)" />
-              <DefRow term="Record retention" desc="Retain alongside this profile" />
-              <DefRow term="Obligation" desc="Article 26(9) · GDPR Article 35" />
+              <DefRow term="FRIA applicability" desc={agent.highRiskFlag === 'yes' ? 'Assess Article 27 scope — high-risk status alone is not sufficient' : agent.highRiskFlag === 'no' ? 'Article 27 FRIA not triggered by this non-high-risk classification' : 'Pending — classification and deployer scope unresolved'} />
+              <DefRow term="DPIA support" desc="Use provider information under Article 26(9) when carrying out a GDPR Article 35 DPIA, where applicable" />
+              <DefRow term="Record retention" desc="Retain applicable FRIA/DPIA records alongside this profile" />
+              <DefRow term="Obligation" desc="Article 27 · Article 26(9) · GDPR Article 35" />
             </dl>
           </section>
 
