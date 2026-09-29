@@ -1,0 +1,40 @@
+name: Workspace Hygiene Verify
+
+on:
+  push:
+    branches:
+      - "hygiene/verified-regulatory-and-ui-fixes"
+    paths:
+      - "public/index.html"
+      - "scripts/verify_hygiene.py"
+      - ".github/workflows/hygiene-verify.yml"
+  pull_request:
+    paths:
+      - "public/index.html"
+      - "scripts/verify_hygiene.py"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify expected corrections
+        run: python scripts/verify_hygiene.py
+      - name: Parse JSX with Babel
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          text=Path("public/index.html").read_text()
+          m=re.search(r'<script type="text/babel"[^>]*>(.*?)</script>', text, re.S)
+          assert m, "text/babel script not found"
+          Path("/tmp/workspace.jsx").write_text(m.group(1))
+          PY
+          npm install --no-save --no-package-lock @babel/core @babel/cli @babel/preset-react
+          npx babel /tmp/workspace.jsx --presets @babel/preset-react --out-file /tmp/workspace.js
