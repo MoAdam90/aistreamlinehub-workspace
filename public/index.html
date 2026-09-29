@@ -354,10 +354,10 @@ function App() {
               { action: 'Notify named human credit reviewer', level: 'notify', trigger: 'A creditworthiness assessment has been produced', status: 'in_place' },
             ]);
             setAccountability({
-              decision: { name: 'Sarah Müller', title: 'Head of Financial Crime Compliance', status: 'in_place' },
-              oversight: { name: 'Thomas Becker', title: 'Senior Compliance Analyst', status: 'partial' },
+              decision: { name: 'Sarah Müller', title: 'Head of Credit Risk', status: 'in_place' },
+              oversight: { name: 'Thomas Becker', title: 'Senior Credit Risk Analyst', status: 'partial' },
               technical: { name: 'Lena Fischer', title: 'AI Platform Lead', status: 'in_place' },
-              compliance: { name: 'Sarah Müller', title: 'Head of Financial Crime Compliance', status: 'in_place' },
+              compliance: { name: 'Sarah Müller', title: 'Head of Credit Risk', status: 'in_place' },
             });
             setAudit({
               fields: ['Application ID', 'Agent version', 'Boundary version', 'Credit bureau queried', 'Assessment outcome', 'Escalation trigger condition', 'Reviewing officer ID', 'Decision timestamp', 'Override flag'],
@@ -408,10 +408,10 @@ function App() {
               <p className="text-sm text-[var(--muted)] mb-6 italic">Classification rationale starts here. A vague purpose produces an indefensible record.</p>
               <div className="space-y-5">
                 <Field label="Agent name" required>
-                  <input className="field-input" placeholder="e.g. Sanctions Triage Agent" value={agent.name} onChange={e => setAgent({...agent, name: e.target.value})} />
+                  <input className="field-input" placeholder="e.g. Creditworthiness Review Agent" value={agent.name} onChange={e => setAgent({...agent, name: e.target.value})} />
                 </Field>
                 <Field label="One-line function" required>
-                  <input className="field-input" placeholder="e.g. Screens inbound payments against sanctions lists and flags matches for compliance review." value={agent.purpose} onChange={e => setAgent({...agent, purpose: e.target.value})} />
+                  <input className="field-input" placeholder="e.g. Evaluates creditworthiness and routes a recommendation to a named human reviewer." value={agent.purpose} onChange={e => setAgent({...agent, purpose: e.target.value})} />
                 </Field>
                 <Field label="Intended purpose (long form)" hint="Used as the basis for Annex III classification. Be specific about the decision the agent informs or makes.">
                   <textarea className="field-input" rows={3} placeholder="Describe the deployment context, the decision being supported, and who the output affects." value={agent.purposeDetail} onChange={e => setAgent({...agent, purposeDetail: e.target.value})} />
@@ -1005,7 +1005,7 @@ function OversightEditor({ value, boundary, isRetrofit, onSave, onClose }) {
                 </button>
               ))}
             </div>
-            <input className="field-input" placeholder="Trigger / entry condition — e.g. Confidence < 0.7, or any flagged sanctions hit"
+            <input className="field-input" placeholder="Trigger / entry condition — e.g. assessment enters a manual-review band or required data is incomplete"
               value={row.trigger} onChange={e => { const next = [...rows]; next[i] = {...next[i], trigger: e.target.value}; setRows(next); }} />
             {isRetrofit && (
               <div className="mt-3 flex items-center gap-3">
@@ -1056,7 +1056,7 @@ function SuspensionEditor({ value, isRetrofit, onSave, onClose }) {
         </Field>
         <Field label="Trigger conditions" hint="The observable conditions that obligate the authority holder to suspend. Be specific — vague triggers create audit risk.">
           <textarea className="field-input" rows={3}
-            placeholder={"e.g.\nSanctions false-positive rate exceeds 5% in any 24-hour window\nAny uncontrolled output reaching an external party\nAI provider issues high-severity incident notice"}
+            placeholder={"e.g.\nMaterial unexplained disparity in outcomes\nAny action outside the approved boundary\nAI provider issues a high-severity incident notice"}
             value={v.trigger} onChange={e => setV({...v, trigger: e.target.value})} />
         </Field>
         <Field label="Notification chain" hint="Who must be notified on suspension, in what order. Legal notification duties depend on the facts and applicable regime.">
